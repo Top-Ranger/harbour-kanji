@@ -131,7 +131,7 @@ Page {
                     color: Theme.highlightColor
                 }
                 Label {
-                    text: kanjiinfo.JLPT() === 0 ? "Not present in any JLPT level" : "" + kanjiinfo.JLPT()
+                    text: kanjiinfo.JLPT() === 0 ? "Not present in any level" : "" + kanjiinfo.JLPT()
                 }
             }            Row  {
                 Label {
