@@ -137,6 +137,24 @@ Page {
                 placeholderText: "Meaning"
             }
 
+            TextSwitch {
+                id: switchsaved
+                width: parent.width
+                text: "Search for saved Kanji"
+                onCheckedChanged: savedinput.currentIndex = 0
+            }
+
+            ComboBox {
+                id: savedinput
+                width: parent.width
+                visible: switchsaved.checked
+                label: "Saved Kanji"
+                menu: ContextMenu {
+                    MenuItem { text: "Only saved Kanji"}
+                    MenuItem { text: "No saved Kanji"}
+                }
+            }
+
             Button {
                 text: "Start search"
                 width: column.width
@@ -161,6 +179,10 @@ Page {
 
                     if(switchmeaning.checked) {
                         search.search_meaning(meaninginput.text)
+                    }
+
+                    if(switchsaved.checked) {
+                        search.search_saved(savedinput.currentIndex === 0)
                     }
 
                     if(search.start_search()) {

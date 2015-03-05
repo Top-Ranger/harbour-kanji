@@ -49,6 +49,7 @@ public:
     Q_INVOKABLE void search_strokecount(int strokecount);
     Q_INVOKABLE void search_jlpt(int jlpt);
     Q_INVOKABLE void search_meaning(QString meaning);
+    Q_INVOKABLE void search_saved(bool saved);
 
     Q_INVOKABLE bool start_search();
 
@@ -62,6 +63,8 @@ signals:
 public slots:
 
 private:
+    bool next_hidden();
+
     QSqlQuery _kanji_query;
     QSqlQuery _settings_query;
 
@@ -74,6 +77,9 @@ private:
     int _strokecount;
     int _jlpt;
     QString _meaning;
+
+    bool _search_for_saved;
+    bool _saved_search_value;
 
     bool _search_started;
 };

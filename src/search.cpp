@@ -79,6 +79,8 @@ search::search(QSqlDatabase kanji, QSqlDatabase settings, QObject *parent) :
     _strokecount(0),
     _jlpt(0),
     _meaning(""),
+    _search_for_saved(false),
+    _saved_search_value(false),
     _search_started(false)
 {
 }
@@ -95,6 +97,8 @@ void search::clear()
     _strokecount = 0;
     _jlpt = 0;
     _meaning = "";
+    _search_for_saved = false;
+    _saved_search_value = false;
     _search_started = false;
 }
 
@@ -121,6 +125,12 @@ void search::search_jlpt(int jlpt)
 void search::search_meaning(QString meaning)
 {
     _meaning = meaning;
+}
+
+void search::search_saved(bool saved)
+{
+    _search_for_saved = true;
+    _saved_search_value = saved;
 }
 
 bool search::start_search()
@@ -222,7 +232,7 @@ bool search::start_search()
     return true;
 }
 
-bool search::next()
+bool search::next_hidden()
 {
     if(!_search_started)
     {
@@ -249,6 +259,29 @@ bool search::next()
     }
     else
     {
+        return false;
+    }
+}
+
+bool search::next()
+{
+    if(!_search_started)
+    {
+        return false;
+    }
+    if(!_search_for_saved)
+    {
+        return next_hidden();
+    }
+    else
+    {
+        while(next_hidden())
+        {
+            if(_saved_search_value == _saved)
+            {
+                return true;
+            }
+        }
         return false;
     }
 }
