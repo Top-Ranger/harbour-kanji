@@ -38,6 +38,7 @@ Page {
         id: variable
         property bool saved: kanjiinfo.saved()
         property string literal: kanjiinfo.literal()
+        property int count: 0
     }
 
     ListModel {
@@ -47,6 +48,7 @@ Page {
             clear()
             while(search.next()) {
                 append({"element_literal": search.literal(), "element_meaning": search.meaning(), "element_saved": search.kanji_is_saved()})
+                variable.count += 1
             }
         }
     }
@@ -58,8 +60,9 @@ Page {
         currentIndex: -1
 
         header: PageHeader {
-            title: "Search results"
+            title: "Search results: " + variable.count
         }
+
 
         delegate: KanjiEntry {
             literal: element_literal
