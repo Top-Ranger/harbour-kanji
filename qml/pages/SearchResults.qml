@@ -74,6 +74,13 @@ Page {
 
     }
 
+    Label {
+        visible: variable.count == 0
+        anchors.centerIn: parent
+        text: "No Kanji found"
+        font.pixelSize: Theme.fontSizeExtraLarge
+    }
+
     UpperPanel {
         id: panel
         text: "Can not open Kanji"
