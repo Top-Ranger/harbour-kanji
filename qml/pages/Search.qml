@@ -84,6 +84,7 @@ Page {
                 placeholderText: "Radical number"
                 EnterKey.onClicked: parent.focus = true
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
+                validator: IntValidator {bottom: 1}
             }
 
             TextSwitch {
@@ -100,6 +101,7 @@ Page {
                 EnterKey.onClicked: parent.focus = true
                 placeholderText: "Stroke count"
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
+                validator: IntValidator {bottom: 1}
             }
 
             TextSwitch {
@@ -115,6 +117,7 @@ Page {
                 visible: switchjlpt.checked
                 label: "JLPT"
                 menu: ContextMenu {
+                    MenuItem { text: "Not present in any level"}
                     MenuItem { text: "Level 1"}
                     MenuItem { text: "Level 2"}
                     MenuItem { text: "Level 3"}
@@ -174,7 +177,7 @@ Page {
                     }
 
                     if(switchjlpt.checked) {
-                        search.search_jlpt(jlptinput.currentIndex+1)
+                        search.search_jlpt(jlptinput.currentIndex)
                     }
 
                     if(switchmeaning.checked) {

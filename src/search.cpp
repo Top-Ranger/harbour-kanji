@@ -75,9 +75,9 @@ search::search(QSqlDatabase kanji, QSqlDatabase settings, QObject *parent) :
     _meaning_result(""),
     _saved(""),
     _literal(""),
-    _radical(0),
-    _strokecount(0),
-    _jlpt(0),
+    _radical(-1),
+    _strokecount(-1),
+    _jlpt(-1),
     _meaning(""),
     _search_for_saved(false),
     _saved_search_value(false),
@@ -93,9 +93,9 @@ void search::clear()
     _meaning_result = "";
     _saved = false;
     _literal = "";
-    _radical = 0;
-    _strokecount = 0;
-    _jlpt = 0;
+    _radical = -1;
+    _strokecount = -1;
+    _jlpt = -1;
     _meaning = "";
     _search_for_saved = false;
     _saved_search_value = false;
@@ -170,15 +170,15 @@ bool search::start_search()
         {
             add_value(s,QString("\%%1\%").arg(_literal),QString("literal LIKE ?"),v_1,v_2,v_3,v_4,v_5,count);
         }
-        if(_radical != 0)
+        if(_radical != -1)
         {
             add_value(s,QString("%1").arg(_radical),QString("radical=?"),v_1,v_2,v_3,v_4,v_5,count);
         }
-        if(_strokecount != 0)
+        if(_strokecount != -1)
         {
             add_value(s,QString("%1").arg(_strokecount),QString("strokecount=?"),v_1,v_2,v_3,v_4,v_5,count);
         }
-        if(_jlpt != 0)
+        if(_jlpt != -1)
         {
             add_value(s,QString("%1").arg(_jlpt),QString("JLPT=?"),v_1,v_2,v_3,v_4,v_5,count);
         }
