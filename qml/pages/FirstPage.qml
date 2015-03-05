@@ -75,6 +75,24 @@ Page {
             BackgroundItem {
                 width: parent.width
                     Label {
+                        text: "Show all Kanji"
+                        anchors.centerIn: parent
+                    }
+
+                onClicked: {
+                    search.clear()
+                    if(search.start_search()) {
+                        pageStack.push(Qt.resolvedUrl("SearchResults.qml"))
+                    }
+                    else {
+                        panel.show()
+                    }
+                }
+            }
+
+            BackgroundItem {
+                width: parent.width
+                    Label {
                         text: "JLPT Level 1"
                         anchors.centerIn: parent
                     }
