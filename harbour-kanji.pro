@@ -47,7 +47,10 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/SearchResults.qml \
     qml/pages/About.qml \
     qml/pages/Search.qml \
-    qml/pages/UpperPanel.qml
+    qml/pages/UpperPanel.qml \
+    qml/cover/cover.png \
+    qml/pages/no_star.png \
+    qml/pages/star.png
 
 HEADERS += \
     src/search.h \
