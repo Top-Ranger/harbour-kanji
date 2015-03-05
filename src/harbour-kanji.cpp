@@ -45,6 +45,7 @@
 #include "search.h"
 #include "kanjiinfo.h"
 #include "kanji_save.h"
+#include "train.h"
 
 bool create_new_settings_db(QSqlDatabase settings);
 bool test_and_update_settings_db(QSqlDatabase settings);
@@ -118,12 +119,14 @@ int main(int argc, char *argv[])
     search search_class(kanjidb, settingsdb);
     kanjiinfo kanjiinfo_class(kanjidb, settingsdb);
     kanji_save kanji_save_class(settingsdb);
+    train train_class(settingsdb);
 
     QQuickView *view = SailfishApp::createView();
 
     view->rootContext()->setContextProperty("search", &search_class);
     view->rootContext()->setContextProperty("kanjiinfo", &kanjiinfo_class);
     view->rootContext()->setContextProperty("kanji_save", &kanji_save_class);
+    view->rootContext()->setContextProperty("train", &train_class);
 
     // Start application
     view->setSource(SailfishApp::pathTo("qml/harbour-kanji.qml"));

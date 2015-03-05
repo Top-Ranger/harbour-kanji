@@ -28,7 +28,8 @@ INSTALLS += license database
 SOURCES += src/harbour-kanji.cpp \
     src/search.cpp \
     src/kanjiinfo.cpp \
-    src/kanji_save.cpp
+    src/kanji_save.cpp \
+    src/train.cpp
 
 OTHER_FILES += qml/harbour-kanji.qml \
     qml/cover/CoverPage.qml \
@@ -50,10 +51,12 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/UpperPanel.qml \
     qml/cover/cover.png \
     qml/pages/no_star.png \
-    qml/pages/star.png
+    qml/pages/star.png \
+    qml/pages/Train.qml
 
 HEADERS += \
     src/search.h \
     src/kanjiinfo.h \
-    src/kanji_save.h
+    src/kanji_save.h \
+    src/train.h
 

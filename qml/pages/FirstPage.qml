@@ -64,20 +64,37 @@ Page {
 
             BackgroundItem {
                 width: parent.width
-                    Label {
-                        text: "Search"
-                        anchors.centerIn: parent
-                    }
+                Label {
+                    text: "Search"
+                    anchors.centerIn: parent
+                }
 
                 onClicked: pageStack.push(Qt.resolvedUrl("Search.qml"))
             }
 
             BackgroundItem {
                 width: parent.width
-                    Label {
-                        text: "Show saved Kanji"
-                        anchors.centerIn: parent
+                Label {
+                    text: "Train saved Kanji"
+                    anchors.centerIn: parent
+                }
+
+                onClicked: {
+                    if(train.start_test()) {
+                        pageStack.push(Qt.resolvedUrl("Train.qml"))
                     }
+                    else {
+                        panel.show()
+                    }
+                }
+            }
+
+            BackgroundItem {
+                width: parent.width
+                Label {
+                    text: "Show saved Kanji"
+                    anchors.centerIn: parent
+                }
 
                 onClicked: {
                     search.clear()
@@ -93,10 +110,10 @@ Page {
 
             BackgroundItem {
                 width: parent.width
-                    Label {
-                        text: "Show all Kanji"
-                        anchors.centerIn: parent
-                    }
+                Label {
+                    text: "Show all Kanji"
+                    anchors.centerIn: parent
+                }
 
                 onClicked: {
                     search.clear()
@@ -111,10 +128,10 @@ Page {
 
             BackgroundItem {
                 width: parent.width
-                    Label {
-                        text: "JLPT Level 1"
-                        anchors.centerIn: parent
-                    }
+                Label {
+                    text: "JLPT Level 1"
+                    anchors.centerIn: parent
+                }
 
                 onClicked: {
                     search.clear()
@@ -130,10 +147,10 @@ Page {
 
             BackgroundItem {
                 width: parent.width
-                    Label {
-                        text: "JLPT Level 2"
-                        anchors.centerIn: parent
-                    }
+                Label {
+                    text: "JLPT Level 2"
+                    anchors.centerIn: parent
+                }
 
                 onClicked: {
                     search.clear()
@@ -149,10 +166,10 @@ Page {
 
             BackgroundItem {
                 width: parent.width
-                    Label {
-                        text: "JLPT Level 3"
-                        anchors.centerIn: parent
-                    }
+                Label {
+                    text: "JLPT Level 3"
+                    anchors.centerIn: parent
+                }
 
                 onClicked: {
                     search.clear()
@@ -168,10 +185,10 @@ Page {
 
             BackgroundItem {
                 width: parent.width
-                    Label {
-                        text: "JLPT Level 4"
-                        anchors.centerIn: parent
-                    }
+                Label {
+                    text: "JLPT Level 4"
+                    anchors.centerIn: parent
+                }
 
                 onClicked: {
                     search.clear()
