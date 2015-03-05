@@ -86,7 +86,7 @@ Page {
 
             Label {
                 id: kanji
-                x: parent.width/2 - width
+                x: page.width/2 - width
                 text: kanjiinfo.literal()
                 font.pixelSize: Theme.fontSizeExtraLarge
             }
@@ -135,11 +135,12 @@ Page {
                 }
             }            Row  {
                 Label {
+                    id: labelon
                     text: "ON: "
                     color: Theme.highlightColor
                 }
                 Text {
-                    width: column.width - labelmeaning.width
+                    width: column.width - labelon.width
                     color: Theme.primaryColor
                     wrapMode: Text.Wrap
                     text: kanjiinfo.ONreading()
@@ -148,11 +149,12 @@ Page {
 
             Row  {
                 Label {
+                    id: labelkun
                     text: "KUN: "
                     color: Theme.highlightColor
                 }
                 Text {
-                    width: column.width - labelmeaning.width
+                    width: column.width - labelkun.width
                     color: Theme.primaryColor
                     wrapMode: Text.Wrap
                     text: kanjiinfo.KUNreading()
