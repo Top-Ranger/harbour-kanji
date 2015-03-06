@@ -79,9 +79,7 @@ bool train::next()
         _started = false;
         return false;
     }
-    int index = qrand()%_literal_list.length();
-    _literal = _literal_list[index];
-    _literal_list.removeAt(index);
+    _literal = _literal_list.takeAt(qrand()%_literal_list.length());
     return true;
 }
 
