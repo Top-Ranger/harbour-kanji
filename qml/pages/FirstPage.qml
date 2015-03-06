@@ -40,6 +40,8 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
 
+        VerticalScrollDecorator {}
+
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {

@@ -44,6 +44,8 @@ Page {
         anchors.fill: parent
         contentHeight: column.height
 
+        VerticalScrollDecorator {}
+
         PullDownMenu {
 
             MenuItem {
