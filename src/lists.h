@@ -27,8 +27,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KANJI_SAVE_H
-#define KANJI_SAVE_H
+#ifndef LISTS_H
+#define LISTS_H
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -36,15 +36,21 @@
 #include <QSqlError>
 #include <QString>
 
-class kanji_save : public QObject
+class lists : public QObject
 {
     Q_OBJECT
 public:
-    explicit kanji_save(QSqlDatabase settings, QObject *parent = 0);
+    explicit lists(QSqlDatabase settings, QObject *parent = 0);
 
-    Q_INVOKABLE bool save(QString literal);
-    Q_INVOKABLE bool unsave(QString literal);
-    Q_INVOKABLE bool unsave_all();
+    Q_INVOKABLE bool get_all_lists();
+    Q_INVOKABLE bool search_started();
+    Q_INVOKABLE bool next();
+    Q_INVOKABLE QString list_name();
+    Q_INVOKABLE void clear();
+
+    Q_INVOKABLE bool save_to_list(QString list);
+    Q_INVOKABLE bool load_from_list(QString list);
+    Q_INVOKABLE bool delete_list(QString list);
 
 signals:
 
@@ -53,6 +59,10 @@ public slots:
 private:
     QSqlDatabase _settings;
     QSqlQuery _settings_query;
+    QSqlQuery _lists_query;
+
+    bool _search_started;
+    QString _list_name;
 };
 
-#endif // KANJI_SAVE_H
+#endif // LISTS_H

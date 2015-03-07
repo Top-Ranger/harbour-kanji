@@ -259,6 +259,7 @@ bool search::next_hidden()
     }
     else
     {
+        _search_started = false;
         return false;
     }
 }

@@ -48,6 +48,11 @@ Page {
                 text: "About"
                 onClicked: pageStack.push(Qt.resolvedUrl("About.qml"))
             }
+
+            MenuItem {
+                text: "Manage saved Kanji"
+                onClicked: pageStack.push(Qt.resolvedUrl("ListManagement.qml"))
+            }
         }
 
         // Tell SilicaFlickable the height of its content.

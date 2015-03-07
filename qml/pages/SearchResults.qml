@@ -63,7 +63,6 @@ Page {
             title: "Search results: " + variable.count
         }
 
-
         delegate: KanjiEntry {
             literal: element_literal
             meaning: element_meaning

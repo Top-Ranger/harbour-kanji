@@ -46,6 +46,7 @@
 #include "kanjiinfo.h"
 #include "kanji_save.h"
 #include "train.h"
+#include "lists.h"
 
 bool create_new_settings_db(QSqlDatabase settings);
 bool test_and_update_settings_db(QSqlDatabase settings);
@@ -120,6 +121,7 @@ int main(int argc, char *argv[])
     kanjiinfo kanjiinfo_class(kanjidb, settingsdb);
     kanji_save kanji_save_class(settingsdb);
     train train_class(settingsdb);
+    lists lists_class(settingsdb);
 
     QQuickView *view = SailfishApp::createView();
 
@@ -127,6 +129,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("kanjiinfo", &kanjiinfo_class);
     view->rootContext()->setContextProperty("kanji_save", &kanji_save_class);
     view->rootContext()->setContextProperty("train", &train_class);
+    view->rootContext()->setContextProperty("lists", &lists_class);
 
     // Start application
     view->setSource(SailfishApp::pathTo("qml/harbour-kanji.qml"));
@@ -144,6 +147,7 @@ bool create_new_settings_db(QSqlDatabase settings)
     QStringList operations;
     operations.append("CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT)");
     operations.append("CREATE TABLE saved_kanji (literal TEXT PRIMARY KEY)");
+    operations.append("CREATE TABLE kanji_lists (literal TEXT, list TEXT, PRIMARY KEY(literal, list))");
     operations.append("CREATE TABLE settings (literal TEXT PRIMARY KEY)");
     operations.append("INSERT INTO meta VALUES ('settings_version', '1')");
 
@@ -169,7 +173,7 @@ bool test_and_update_settings_db(QSqlDatabase settings)
     {
         QString error = s.append(": ").append(query.lastError().text());
         qWarning() << error;
-        return false;
+        return true;
     }
     if(!query.isSelect())
     {

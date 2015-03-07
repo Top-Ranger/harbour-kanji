@@ -70,3 +70,17 @@ bool kanji_save::unsave(QString literal)
     _settings.commit();
     return true;
 }
+
+bool kanji_save::unsave_all()
+{
+    QString s = QString("DELETE FROM saved_kanji");
+    if(!_settings_query.exec(s))
+    {
+        QString error = s.append(": ").append(_settings_query.lastError().text());
+        qWarning() << error;
+        _settings_query.clear();
+        return false;
+    }
+    _settings.commit();
+    return true;
+}
