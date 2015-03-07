@@ -93,21 +93,21 @@ Page {
             Button {
                 width: parent.width
                 enabled: variables.currentlist !== ""
-                text: "Add list " + variables.currentlist + " to saved Kanji"
+                text: "Add list to saved Kanji"
                 onClicked: remorsePopup.execute("Add list " + variables.currentlist + " to saved Kanj", function() { if(!lists.load_from_list(variables.currentlist)) { panel.text = "Can not add Kanji from list"; panel.show() }; functions.update()  } )
             }
 
             Button {
                 width: parent.width
                 enabled: variables.currentlist !== ""
-                text: "Delete list " + variables.currentlist
+                text: "Delete list"
                 onClicked: remorsePopup.execute("Delete list " + variables.currentlist, function() { if(!lists.delete_list(variables.currentlist)) { panel.text = "Can not delete list"; panel.show() }; functions.update()  } )
             }
 
             Button {
                 width: parent.width
                 enabled: newlist.text !== ""
-                text: "Add saved Kanj to list " + newlist.text
+                text: "Add saved Kanj to list"
                 onClicked: {
                     if(!lists.save_to_list(newlist.text)) {
                         panel.text = "Can not save Kanji to list"

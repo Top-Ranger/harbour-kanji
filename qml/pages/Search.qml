@@ -68,6 +68,7 @@ Page {
                 visible: switchliteral.checked
                 EnterKey.onClicked: parent.focus = true
                 placeholderText: "Literal"
+                label: "Literal"
             }
 
             TextSwitch {
@@ -82,6 +83,7 @@ Page {
                 width: parent.width
                 visible: switchradical.checked
                 placeholderText: "Radical number"
+                label: "Radical number"
                 EnterKey.onClicked: parent.focus = true
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: IntValidator {bottom: 1}
@@ -100,6 +102,7 @@ Page {
                 visible: switchstrokecount.checked
                 EnterKey.onClicked: parent.focus = true
                 placeholderText: "Stroke count"
+                label: "Stroke count"
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: IntValidator {bottom: 1}
             }
@@ -138,6 +141,7 @@ Page {
                 visible: switchmeaning.checked
                 EnterKey.onClicked: parent.focus = true
                 placeholderText: "Meaning"
+                label: "Meaning"
             }
 
             TextSwitch {
