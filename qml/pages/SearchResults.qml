@@ -45,6 +45,7 @@ Page {
         id: functions
 
         function update() {
+            variable.count = 0
             listModel.clear()
             _update_step()
         }
