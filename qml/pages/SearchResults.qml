@@ -41,16 +41,37 @@ Page {
         property int count: 0
     }
 
+    Item {
+        id: functions
+
+        function update() {
+            listModel.clear()
+            _update_step()
+        }
+
+        function _update_step() {
+            while(search.next()) {
+                listModel.append({"element_literal": search.literal(), "element_meaning": search.meaning(), "element_saved": search.kanji_is_saved()})
+                variable.count += 1
+                if(variable.count%100 === 0) {
+                    timer.stop()
+                    timer.start()
+                    return
+                }
+            }
+        }
+    }
+
+    Timer {
+        id: timer
+        interval: 10
+        onTriggered: functions._update_step()
+    }
+
     ListModel {
         id: listModel
 
-        Component.onCompleted: {
-            clear()
-            while(search.next()) {
-                append({"element_literal": search.literal(), "element_meaning": search.meaning(), "element_saved": search.kanji_is_saved()})
-                variable.count += 1
-            }
-        }
+        Component.onCompleted: functions.update()
     }
 
     SilicaListView {
