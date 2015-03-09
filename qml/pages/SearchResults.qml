@@ -41,6 +41,8 @@ Page {
         property int count: 0
     }
 
+    onVisibleChanged: functions.check_saved_changed()
+
     Item {
         id: functions
 
@@ -58,6 +60,19 @@ Page {
                     timer.stop()
                     timer.start()
                     return
+                }
+            }
+        }
+
+        function check_saved_changed() {
+            var literal_changed = kanji_save.last_changed()
+            if(literal_changed !== "") {
+                kanji_save.set_last_changed("")
+                for(var i = 0; i < variable.count; i++) {
+                    if(listModel.get(i).element_literal === literal_changed) {
+                        listModel.get(i).element_saved = kanji_save.last_changed_value()
+                        return
+                    }
                 }
             }
         }

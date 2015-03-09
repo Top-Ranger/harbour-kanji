@@ -46,6 +46,12 @@ public:
     Q_INVOKABLE bool unsave(QString literal);
     Q_INVOKABLE bool unsave_all();
 
+    Q_INVOKABLE void set_last_changed(QString last_changed);
+    Q_INVOKABLE QString last_changed();
+
+    Q_INVOKABLE void set_last_changed_value(bool last_changed_value);
+    Q_INVOKABLE bool last_changed_value();
+
 signals:
 
 public slots:
@@ -53,6 +59,10 @@ public slots:
 private:
     QSqlDatabase _settings;
     QSqlQuery _settings_query;
+
+    QString _last_changed;
+
+    bool _last_changed_value;
 };
 
 #endif // KANJI_SAVE_H

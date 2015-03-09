@@ -33,7 +33,9 @@
 kanji_save::kanji_save(QSqlDatabase settings, QObject *parent) :
     QObject(parent),
     _settings(settings),
-    _settings_query(settings)
+    _settings_query(settings),
+    _last_changed(""),
+    _last_changed_value(false)
 {
 }
 
@@ -83,4 +85,24 @@ bool kanji_save::unsave_all()
     }
     _settings.commit();
     return true;
+}
+
+void kanji_save::set_last_changed(QString last_changed)
+{
+    _last_changed = last_changed;
+}
+
+QString kanji_save::last_changed()
+{
+    return _last_changed;
+}
+
+void kanji_save::set_last_changed_value(bool last_changed_value)
+{
+    _last_changed_value = last_changed_value;
+}
+
+bool kanji_save::last_changed_value()
+{
+    return _last_changed_value;
 }

@@ -54,7 +54,9 @@ Page {
                 onClicked: {
                     if(kanji_save.save(variable.literal))
                     {
+                        kanji_save.set_last_changed(variable.literal)
                         variable.saved = true
+                        kanji_save.set_last_changed_value(variable.saved)
                     }
                 }
             }
@@ -65,7 +67,9 @@ Page {
                 onClicked: {
                     if(kanji_save.unsave(variable.literal))
                     {
+                        kanji_save.set_last_changed(variable.literal)
                         variable.saved = false
+                        kanji_save.set_last_changed_value(variable.saved)
                     }
                 }
             }
