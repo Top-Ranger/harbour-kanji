@@ -47,6 +47,7 @@
 #include "kanji_save.h"
 #include "train.h"
 #include "lists.h"
+#include "radical.h"
 
 bool create_new_settings_db(QSqlDatabase settings);
 bool test_and_update_settings_db(QSqlDatabase settings);
@@ -122,6 +123,7 @@ int main(int argc, char *argv[])
     kanji_save kanji_save_class(settingsdb);
     train train_class(settingsdb);
     lists lists_class(settingsdb);
+    radical radical_class(kanjidb);
 
     QQuickView *view = SailfishApp::createView();
 
@@ -130,6 +132,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("kanji_save", &kanji_save_class);
     view->rootContext()->setContextProperty("train", &train_class);
     view->rootContext()->setContextProperty("lists", &lists_class);
+    view->rootContext()->setContextProperty("radical", &radical_class);
 
     // Start application
     view->setSource(SailfishApp::pathTo("qml/harbour-kanji.qml"));
