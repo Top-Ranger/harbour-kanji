@@ -49,17 +49,22 @@ Page {
         }
     }
 
-    SilicaListView {
-        id: list
+    SilicaGridView {
+        id: grid
         model: listModel
         anchors.fill: parent
         currentIndex: -1
+
+        cellWidth: grid.width/4
+        cellHeight: cellWidth
 
         header: PageHeader {
             title: "Radicals"
         }
 
         delegate: BackgroundItem {
+            width: grid.cellWidth
+            height: grid.cellHeight
             Row {
                 anchors.centerIn: parent
                 Label {
