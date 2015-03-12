@@ -113,11 +113,11 @@ Page {
 
             Row  {
                 Label {
-                    text: "Radical number: "
+                    text: "Radical: "
                     color: Theme.highlightColor
                 }
                 Label {
-                    text: "" + kanjiinfo.radical()
+                    text: radical.radical_by_number(kanjiinfo.radical()) + " (" + kanjiinfo.radical() + ")"
                 }
             }
 
