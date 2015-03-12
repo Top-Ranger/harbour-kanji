@@ -34,11 +34,26 @@ import Sailfish.Silica 1.0
 Page {
     id: page
 
+    onVisibleChanged: {
+        if(variables.started_radical_selection) {
+            if(radical.get_saved_radical() !== -1) {
+                variables.started_radical_selection = false
+                radicalinput.text = radical.get_saved_radical()
+                console.log(radical.get_saved_radical())
+            }
+        }
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
 
         VerticalScrollDecorator {}
+
+        Item {
+            id: variables
+            property bool started_radical_selection: false
+        }
 
         Column {
             id: column
@@ -87,6 +102,17 @@ Page {
                 EnterKey.onClicked: parent.focus = true
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
                 validator: IntValidator {bottom: 1}
+            }
+
+            Button {
+                width: parent.width
+                visible: switchradical.checked
+                text: "Browse radicals"
+                onClicked: {
+                    radical.save_radical(-1)
+                    pageStack.push(Qt.resolvedUrl("RadicalSelection.qml"))
+                    variables.started_radical_selection = true
+                }
             }
 
             TextSwitch {

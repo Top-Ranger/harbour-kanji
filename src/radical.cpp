@@ -7,7 +7,8 @@ radical::radical(QSqlDatabase kanji, QObject *parent) :
     _single_query(kanji),
     _radical(""),
     _number(0),
-    _started(false)
+    _started(false),
+    _save_radical(0)
 {
 }
 
@@ -101,4 +102,14 @@ int radical::get_number()
 QString radical::get_radical()
 {
     return _radical;
+}
+
+void radical::save_radical(int radical_to_save)
+{
+    _save_radical = radical_to_save;
+}
+
+int radical::get_saved_radical()
+{
+    return _save_radical;
 }

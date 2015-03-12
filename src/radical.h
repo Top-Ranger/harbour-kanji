@@ -22,6 +22,9 @@ public:
     Q_INVOKABLE int get_number();
     Q_INVOKABLE QString get_radical();
 
+    Q_INVOKABLE void save_radical(int radical_to_save);
+    Q_INVOKABLE int get_saved_radical();
+
 signals:
 
 public slots:
@@ -32,6 +35,8 @@ private:
     QString _radical;
     int _number;
     bool _started;
+
+    int _save_radical;
 };
 
 #endif // RADICAL_H
