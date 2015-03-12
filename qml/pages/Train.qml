@@ -63,7 +63,7 @@ Page {
                 kanjiinfo.clear()
                 if(kanjiinfo.search(variable.literal)) {
                     meaning_text.text = kanjiinfo.meaning()
-                    radical_text.text = "" + kanjiinfo.radical()
+                    radical_text.text = radical.radical_by_number(kanjiinfo.radical()) + " (" + kanjiinfo.radical() + ")"
                     strokecount_text.text = "" + kanjiinfo.strokecount()
                     on_text.text = kanjiinfo.ONreading()
                     kun_text.text = kanjiinfo.KUNreading()
@@ -126,7 +126,7 @@ Page {
 
             Row  {
                 Label {
-                    text: "Radical number: "
+                    text: "Radical: "
                     visible: !variable.finished
                     color: Theme.highlightColor
                 }
