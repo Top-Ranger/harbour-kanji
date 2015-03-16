@@ -3,6 +3,12 @@ harbour-kanji
 
 A simple Kanji dictionary/trainer for SailfishOS.
 
+This app contains the following features:
+   * Over 10,000 Kanji based on KANJIDIC2 (JIS X 0208, JIS X 0212, JIS X 0213)
+   * Powerful search
+   * Save Kanji for training
+   * Manage saved Kanji through lists
+
 About kanjidb.sqlite3
 =====================
 
