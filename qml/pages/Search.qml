@@ -93,15 +93,24 @@ Page {
                 onCheckedChanged: radicalinput.text = ""
             }
 
+            Row {
+
             TextField {
                 id: radicalinput
-                width: parent.width
+                width: column.width - showradical.width
                 visible: switchradical.checked
                 placeholderText: "Radical number"
                 label: "Radical number"
                 EnterKey.onClicked: parent.focus = true
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
+                onTextChanged: showradical.text = radical.radical_by_number(text)
                 validator: IntValidator {bottom: 1}
+            }
+
+            Label {
+                id: showradical
+                text: ""
+            }
             }
 
             Button {
