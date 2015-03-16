@@ -9,6 +9,8 @@ This app contains the following features:
    * Save Kanji for training
    * Manage saved Kanji through lists
 
+Link KANJIDIC2: http://www.csse.monash.edu.au/~jwb/kanjidic2/
+
 About kanjidb.sqlite3
 =====================
 
