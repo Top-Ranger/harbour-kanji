@@ -100,10 +100,89 @@ Page {
             title: "Search results: " + variable.count
         }
 
-        delegate: KanjiEntry {
-            literal: element_literal
-            meaning: element_meaning
-            saved: element_saved
+        delegate: ListItem {
+            id: kanjientry
+
+            property string literal: element_literal
+            property string meaning: element_meaning
+            property bool saved: element_saved
+
+            width: parent.width
+
+            Row {
+                id: kanjirow
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.paddingLarge
+                }
+
+                Label {
+                    text: kanjientry.literal
+                    color: Theme.primaryColor
+                }
+                Label {
+                    text: " "
+                    color: Theme.primaryColor
+                }
+                Label {
+                    text: kanjientry.meaning
+                    width: page.width / 3 * 2
+                    color: Theme.secondaryColor
+                    horizontalAlignment: Text.AlignLeft
+                    truncationMode: TruncationMode.Elide
+                }
+            }
+
+            Image {
+                id: star
+                height: parent.height
+                width: height
+                anchors.right: parent.right
+                source: kanjientry.saved ? "star.png" : "no_star.png"
+            }
+
+            menu: ContextMenu {
+                id: contextmenu
+                MenuItem {
+                    text: "Save Kanji"
+                    visible: !saved
+                    onClicked: {
+                        if(literal !== "") {
+                            kanji_save.save(literal)
+                            kanji_save.set_last_changed(literal)
+                            kanji_save.set_last_changed_value(true)
+                            functions.check_saved_changed()
+                        }
+                    }
+                }
+
+                MenuItem {
+                    text: "Remove Kanji from saved"
+                    visible: saved
+                    onClicked: {
+                        if(literal !== "") {
+                            kanji_save.unsave(literal)
+                            kanji_save.set_last_changed(literal)
+                            kanji_save.set_last_changed_value(false)
+                            functions.check_saved_changed()
+                        }
+                    }
+                }
+            }
+
+            onClicked: {
+                kanjiinfo.clear()
+                if(kanjiinfo.search(kanjientry.literal)) {
+                    pageStack.push(Qt.resolvedUrl("Kanji.qml"))
+                }
+                else {
+                    panel.show()
+                    kanjiinfo.clear()
+                    console.log("ERROR in KanjiEntry.qml: Unknown literal " + kanjientry.literal)
+                }
+            }
         }
 
         VerticalScrollDecorator {}

@@ -45,7 +45,6 @@ OTHER_FILES += qml/harbour-kanji.qml \
     kanjidic2.license.html \
     README.md \
     LICENSE.txt \
-    qml/pages/KanjiEntry.qml \
     qml/pages/Kanji.qml \
     qml/pages/SearchResults.qml \
     qml/pages/About.qml \
