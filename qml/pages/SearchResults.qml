@@ -111,6 +111,8 @@ Page {
 
             Row {
                 id: kanjirow
+                width: parent.width - 2*Theme.paddingLarge
+                anchors.centerIn: parent
 
                 anchors {
                     left: parent.left
@@ -139,7 +141,7 @@ Page {
                 id: star
                 height: parent.height
                 width: height
-                anchors.right: parent.right
+                anchors.right: kanjirow.right
                 source: kanjientry.saved ? "star.png" : "no_star.png"
             }
 
