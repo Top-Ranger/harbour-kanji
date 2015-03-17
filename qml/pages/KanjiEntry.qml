@@ -30,7 +30,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-BackgroundItem {
+ListItem {
     id: kanjientry
 
     property string literal: ""
@@ -38,7 +38,6 @@ BackgroundItem {
     property bool saved: false
 
     width: parent.width
-    height: Theme.itemSizeNormal
 
     Row {
         id: kanjirow
@@ -72,6 +71,31 @@ BackgroundItem {
         width: height
         anchors.right: parent.right
         source: kanjientry.saved ? "star.png" : "no_star.png"
+    }
+
+    menu: ContextMenu {
+        id: contextmenu
+        MenuItem {
+            text: "Save Kanji"
+            visible: !saved
+            onClicked: {
+                if(literal !== "") {
+                    kanji_save.save(literal)
+                    saved = true
+                }
+            }
+        }
+
+        MenuItem {
+            text: "Remove Kanji from saved"
+            visible: saved
+            onClicked: {
+                if(literal !== "") {
+                    kanji_save.unsave(literal)
+                    saved = false
+                }
+            }
+        }
     }
 
     onClicked: {
