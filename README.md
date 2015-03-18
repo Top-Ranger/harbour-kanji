@@ -9,7 +9,14 @@ This app contains the following features:
    * Save Kanji for training
    * Manage saved Kanji through lists
 
-Link KANJIDIC2: http://www.csse.monash.edu.au/~jwb/kanjidic2/
+
+This app uses the KANJIDIC2 dictionary file. This file is the property of the Electronic Dictionary Research and Development Group, and is used in conformance with the Group's licence.
+
+KANJIDIC2: http://www.csse.monash.edu.au/~jwb/kanjidic2/
+
+Electronic Dictionary Research and Development Group: http://www.edrdg.org/
+
+License information: http://www.edrdg.org/edrdg/licence.html
 
 About kanjidb.sqlite3
 =====================
