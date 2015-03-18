@@ -31,7 +31,8 @@ SOURCES += src/harbour-kanji.cpp \
     src/kanji_save.cpp \
     src/train.cpp \
     src/lists.cpp \
-    src/radical.cpp
+    src/radical.cpp \
+    src/list_details.cpp
 
 OTHER_FILES += qml/harbour-kanji.qml \
     qml/cover/CoverPage.qml \
@@ -63,5 +64,6 @@ HEADERS += \
     src/kanji_save.h \
     src/train.h \
     src/lists.h \
-    src/radical.h
+    src/radical.h \
+    src/list_details.h
 
