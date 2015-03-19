@@ -101,7 +101,7 @@ QString list_details::list()
 bool list_details::delete_from_list(QString literal, QString list)
 {
     _save_query.clear();
-    QString s = QString("INSERT OR IGNORE INTO kanji_lists (literal, list) VALUES (?, ?)");
+    QString s = QString("DELETE FROM kanji_lists WHERE literal=? AND list=?");
 
     _save_query.prepare(s);
     _save_query.addBindValue(literal);
@@ -121,7 +121,7 @@ bool list_details::delete_from_list(QString literal, QString list)
 bool list_details::save_to_list(QString literal, QString list)
 {
     _save_query.clear();
-    QString s = QString("DELETE FROM kanji_lists WHERE literal=? AND list=?");
+    QString s = QString("INSERT OR IGNORE INTO kanji_lists (literal, list) VALUES (?, ?)");
 
     _save_query.prepare(s);
     _save_query.addBindValue(literal);

@@ -56,7 +56,8 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/star.png \
     qml/pages/Train.qml \
     qml/pages/ListManagement.qml \
-    qml/pages/RadicalSelection.qml
+    qml/pages/RadicalSelection.qml \
+    qml/pages/ListDetails.qml
 
 HEADERS += \
     src/search.h \

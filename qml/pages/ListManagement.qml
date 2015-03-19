@@ -100,6 +100,21 @@ Page {
             Button {
                 width: parent.width
                 enabled: variables.currentlist !== ""
+                text: "View list"
+                onClicked: {
+                    if(list_details.show_details(variables.currentlist)) {
+                        pageStack.push(Qt.resolvedUrl("ListDetails.qml"))
+                    }
+                    else {
+                        panel.text = "Can not open list"
+                        panel.show()
+                    }
+                }
+            }
+
+            Button {
+                width: parent.width
+                enabled: variables.currentlist !== ""
                 text: "Delete list"
                 onClicked: remorsePopup.execute("Delete list '" + variables.currentlist +"'", function() { if(!lists.delete_list(variables.currentlist)) { panel.text = "Can not delete list"; panel.show() }; functions.update()  } )
             }
