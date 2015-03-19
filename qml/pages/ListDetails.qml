@@ -79,6 +79,13 @@ Page {
         anchors.fill: parent
         currentIndex: -1
 
+        PullDownMenu {
+            MenuItem {
+                text: "Add list to saved Kanji"
+                onClicked: remorsePopup.execute("Add list '" + list_details.list() + "' to saved Kanj", function() { if(!lists.load_from_list(list_details.list())) { panel.text = "Can not add Kanji from list"; panel.show() }} )
+            }
+        }
+
         header: PageHeader {
             title: "List '"+ list_details.list() + "': " + variable.count
         }
@@ -182,5 +189,9 @@ Page {
     UpperPanel {
         id: panel
         text: "Error"
+    }
+
+    RemorsePopup {
+        id: remorsePopup
     }
 }

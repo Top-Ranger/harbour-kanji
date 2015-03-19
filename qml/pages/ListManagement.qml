@@ -37,14 +37,12 @@ Page {
     Item {
         id: variables
         property int count: 0
-        property string currentlist: ""
     }
 
     Item {
         id: functions
         function update() {
             variables.count = 0
-            variables.currentlist = ""
             lists.clear()
             listModel.clear()
             if(!lists.get_all_lists()) {
@@ -92,35 +90,6 @@ Page {
 
             Button {
                 width: parent.width
-                enabled: variables.currentlist !== ""
-                text: "Add list to saved Kanji"
-                onClicked: remorsePopup.execute("Add list '" + variables.currentlist + "' to saved Kanj", function() { if(!lists.load_from_list(variables.currentlist)) { panel.text = "Can not add Kanji from list"; panel.show() }; functions.update()  } )
-            }
-
-            Button {
-                width: parent.width
-                enabled: variables.currentlist !== ""
-                text: "View list"
-                onClicked: {
-                    if(list_details.show_details(variables.currentlist)) {
-                        pageStack.push(Qt.resolvedUrl("ListDetails.qml"))
-                    }
-                    else {
-                        panel.text = "Can not open list"
-                        panel.show()
-                    }
-                }
-            }
-
-            Button {
-                width: parent.width
-                enabled: variables.currentlist !== ""
-                text: "Delete list"
-                onClicked: remorsePopup.execute("Delete list '" + variables.currentlist +"'", function() { if(!lists.delete_list(variables.currentlist)) { panel.text = "Can not delete list"; panel.show() }; functions.update()  } )
-            }
-
-            Button {
-                width: parent.width
                 enabled: newlist.text !== ""
                 text: "Add saved Kanj to list"
                 onClicked: {
@@ -149,13 +118,12 @@ Page {
             }
         }
 
-        delegate: BackgroundItem {
+        delegate: ListItem {
             Label {
                 id: backgroundlabel
                 width: parent.width - 2*Theme.paddingLarge
                 text: element_list
                 anchors.centerIn: parent
-                color: variables.currentlist === text ? Theme.highlightColor : Theme.primaryColor
                 truncationMode: TruncationMode.Elide
 
                 anchors {
@@ -164,7 +132,28 @@ Page {
                     margins: Theme.paddingLarge
                 }
             }
-            onPressed: variables.currentlist = backgroundlabel.text
+
+            menu: ContextMenu {
+                id: contextmenu
+                MenuItem {
+                    text: "Add list to saved Kanji"
+                    onClicked: remorsePopup.execute("Add list '" + element_list + "' to saved Kanj", function() { if(!lists.load_from_list(element_list)) { panel.text = "Can not add Kanji from list"; panel.show() }; functions.update()  } )
+                }
+                MenuItem {
+                    text: "Delete list"
+                    onClicked: remorsePopup.execute("Delete list '" + element_list +"'", function() { if(!lists.delete_list(element_list)) { panel.text = "Can not delete list"; panel.show() }; functions.update()  } )
+                }
+            }
+
+            onClicked: {
+                if(list_details.show_details(element_list)) {
+                    pageStack.push(Qt.resolvedUrl("ListDetails.qml"))
+                }
+                else {
+                    panel.text = "Can not open list"
+                    panel.show()
+                }
+            }
         }
 
         VerticalScrollDecorator {}
