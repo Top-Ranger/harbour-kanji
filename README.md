@@ -1,7 +1,7 @@
 harbour-kanji
 =============
 
-A simple Kanji dictionary/trainer for SailfishOS.
+A simple Kanji dictionary/trainer for SailfishOS (Japanese).
 
 This app contains the following features:
    * Over 10,000 Kanji based on KANJIDIC2 (JIS X 0208, JIS X 0212, JIS X 0213)
