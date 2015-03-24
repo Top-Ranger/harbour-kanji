@@ -117,6 +117,30 @@ The database file is therefore under the same license.
 
 See <a href=\"file:///usr/share/harbour-kanji/kanjidic2.license.html\">/usr/share/harbour-kanji/kanjidic2.license.html</a> for more information.</html>"
             }
+
+            PageHeader {
+                title: "About SKIP"
+            }
+
+            Text  {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.paddingSmall
+                }
+
+                id: aboutSKIPText
+                focus: true
+                color: Theme.primaryColor
+                width: about.width
+                font.pixelSize: Theme.fontSizeExtraSmall
+                wrapMode: Text.Wrap
+                onLinkActivated: Qt.openUrlExternally("file:///usr/share/harbour-kanji/kanjidic2.license.html")
+
+                text: "<html>The SKIP (System of Kanji Indexing by Patterns) system for ordering kanji was developed by Jack Halpern (Kanji Dictionary Publishing Society at http://www.kanji.org/), and is used with his permission.
+
+See <a href=\"file:///usr/share/harbour-kanji/kanjidic2.license.html\">/usr/share/harbour-kanji/kanjidic2.license.html</a> for more information.</html>"
+            }
         }
     }
 }

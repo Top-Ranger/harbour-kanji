@@ -143,6 +143,61 @@ Page {
             }
 
             TextSwitch {
+                id: switchskip
+                width: parent.width
+                text: "Search by SKIP code"
+                onCheckedChanged: {skip1input.text = ""; skip2input.text = ""; skip3input.text = ""}
+            }
+
+            Row {
+                width: parent.width
+                visible: switchskip.checked
+
+                TextField {
+                    id: skip1input
+                    width: parent.width/3
+                    visible: switchskip.checked
+                    EnterKey.onClicked: parent.focus = true
+                    placeholderText: "SKIP 1"
+                    label: "SKIP 1"
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
+                    validator: IntValidator {bottom: 1}
+                }
+
+                Label {
+                    text: "-"
+                    visible: switchskip.checked
+                }
+
+                TextField {
+                    id: skip2input
+                    width: parent.width/3
+                    visible: switchskip.checked
+                    EnterKey.onClicked: parent.focus = true
+                    placeholderText: "SKIP 2"
+                    label: "SKIP 2"
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
+                    validator: IntValidator {bottom: 1}
+                }
+
+                Label {
+                    text: "-"
+                    visible: switchskip.checked
+                }
+
+                TextField {
+                    id: skip3input
+                    width: parent.width/3
+                    visible: switchskip.checked
+                    EnterKey.onClicked: parent.focus = true
+                    placeholderText: "SKIP 3"
+                    label: "SKIP 3"
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
+                    validator: IntValidator {bottom: 1}
+                }
+            }
+
+            TextSwitch {
                 id: switchjlpt
                 width: parent.width
                 text: "Search by JLPT level"
@@ -213,6 +268,10 @@ Page {
 
                     if(switchstrokecount.checked) {
                         search.search_strokecount(strokecountinput.text)
+                    }
+
+                    if(switchskip.checked) {
+                        search.search_skip(skip1input.text, skip2input.text, skip3input.text)
                     }
 
                     if(switchjlpt.checked) {
