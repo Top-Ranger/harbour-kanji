@@ -55,6 +55,10 @@ public:
     Q_INVOKABLE QString meaning();
     Q_INVOKABLE bool saved();
     Q_INVOKABLE bool valid_kanji();
+    Q_INVOKABLE int skip1();
+    Q_INVOKABLE int skip2();
+    Q_INVOKABLE int skip3();
+    Q_INVOKABLE bool valid_skip();
 
 signals:
 
@@ -74,6 +78,9 @@ private:
     QString _meaning;
     bool _saved;
     bool _valid_kanji;
+    int _skip1;
+    int _skip2;
+    int _skip3;
 };
 
 #endif // KANJIINFO_H

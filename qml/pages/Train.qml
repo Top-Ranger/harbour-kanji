@@ -68,6 +68,7 @@ Page {
                     on_text.text = kanjiinfo.ONreading()
                     kun_text.text = kanjiinfo.KUNreading()
                     nanori_text.text = kanjiinfo.nanori()
+                    skip_text.text = kanjiinfo.valid_skip() ? ("" + kanjiinfo.skip1() + "-" + kanjiinfo.skip2() + "-" + kanjiinfo.skip3()) : ""
                 }
                 else {
                     panel.show()
@@ -194,6 +195,23 @@ Page {
                     id: nanori_text
                     visible: !variable.finished && variable.showall
                     width: column.width - labelmeaning.width
+                    color: Theme.primaryColor
+                    wrapMode: Text.Wrap
+                    text: ""
+                }
+            }
+
+            Row  {
+                Label {
+                    id: labelskip
+                    visible: !variable.finished
+                    text: "SKIP code: "
+                    color: Theme.highlightColor
+                }
+                Text {
+                    id: skip_text
+                    visible: !variable.finished && variable.showall
+                    width: column.width - labelskip.width
                     color: Theme.primaryColor
                     wrapMode: Text.Wrap
                     text: ""

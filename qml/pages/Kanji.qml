@@ -180,6 +180,20 @@ Page {
                 }
             }
 
+            Row  {
+                Label {
+                    id: labelskip
+                    text: "SKIP code: "
+                    color: Theme.highlightColor
+                }
+                Text {
+                    width: column.width - labelskip.width
+                    color: Theme.primaryColor
+                    wrapMode: Text.Wrap
+                    text: kanjiinfo.valid_skip() ? ("" + kanjiinfo.skip1() + "-" + kanjiinfo.skip2() + "-" + kanjiinfo.skip3()) : ""
+                }
+            }
+
             Row{
                 Label {
                     id: labelsaved

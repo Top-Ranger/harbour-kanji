@@ -43,14 +43,17 @@ kanjiinfo::kanjiinfo(QSqlDatabase kanji, QSqlDatabase settings, QObject *parent)
     _nanori(""),
     _meaning(""),
     _saved(false),
-    _valid_kanji(false)
+    _valid_kanji(false),
+    _skip1(0),
+    _skip2(0),
+    _skip3(0)
 {
 }
 
 bool kanjiinfo::search(QString literal)
 {
     clear();
-    QString s = QString("SELECT literal,radical,strokecount,JLPT,ONreading,KUNreading,nanori,meaning FROM kanji WHERE literal=?");
+    QString s = QString("SELECT literal,radical,strokecount,JLPT,ONreading,KUNreading,nanori,meaning,skip_1,skip_2,skip_3 FROM kanji WHERE literal=?");
     _kanji_query.prepare(s);
     _kanji_query.addBindValue(literal);
 
@@ -82,6 +85,9 @@ bool kanjiinfo::search(QString literal)
     _KUNreading = _kanji_query.value(5).toString();
     _nanori = _kanji_query.value(6).toString();
     _meaning = _kanji_query.value(7).toString();
+    _skip1 = _kanji_query.value(8).toInt();
+    _skip2 = _kanji_query.value(9).toInt();
+    _skip3 = _kanji_query.value(10).toInt();
 
     s = QString("SELECT count(*) FROM saved_kanji WHERE literal=?");
     _settings_query.prepare(s);
@@ -114,6 +120,9 @@ void kanjiinfo::clear()
     _meaning = "";
     _saved = false;
     _valid_kanji = false;
+    _skip1 = 0;
+    _skip2 = 0;
+    _skip3 = 0;
 }
 
 QString kanjiinfo::literal()
@@ -164,4 +173,24 @@ bool kanjiinfo::saved()
 bool kanjiinfo::valid_kanji()
 {
     return _valid_kanji;
+}
+
+int kanjiinfo::skip1()
+{
+    return _skip1;
+}
+
+int kanjiinfo::skip2()
+{
+    return _skip2;
+}
+
+int kanjiinfo::skip3()
+{
+    return _skip3;
+}
+
+bool kanjiinfo::valid_skip()
+{
+    return _skip1 != 0 && _skip2 != 0 && _skip3 != 0;
 }
