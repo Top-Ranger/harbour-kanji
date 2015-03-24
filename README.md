@@ -18,6 +18,10 @@ Electronic Dictionary Research and Development Group: http://www.edrdg.org/
 
 License information: http://www.edrdg.org/edrdg/licence.html
 
+The SKIP (System of Kanji Indexing by Patterns) system for ordering kanji was developed by Jack Halpern (Kanji Dictionary Publishing Society), and is used with his permission.
+
+Kanji Dictionary Publishing Society: http://www.kanji.org/
+
 About kanjidb.sqlite3
 =====================
 
