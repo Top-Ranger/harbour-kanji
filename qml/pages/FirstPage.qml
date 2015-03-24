@@ -50,6 +50,11 @@ Page {
             }
 
             MenuItem {
+                text: "About SKIP system"
+                onClicked: pageStack.push(Qt.resolvedUrl("SKIP.qml"))
+            }
+
+            MenuItem {
                 text: "Manage saved Kanji"
                 onClicked: pageStack.push(Qt.resolvedUrl("ListManagement.qml"))
             }
