@@ -1,0 +1,5 @@
+Current development:
+   * Added SKIP codes
+
+Version 1.0:
+   * Initial release

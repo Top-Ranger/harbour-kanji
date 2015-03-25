@@ -58,7 +58,8 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/ListManagement.qml \
     qml/pages/RadicalSelection.qml \
     qml/pages/ListDetails.qml \
-    qml/pages/SKIP.qml
+    qml/pages/SKIP.qml \
+    ChangeLog.txt
 
 HEADERS += \
     src/search.h \
