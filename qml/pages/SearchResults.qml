@@ -39,6 +39,8 @@ Page {
         property bool saved: kanjiinfo.saved()
         property string literal: kanjiinfo.literal()
         property int count: 0
+        property int save_i: 0
+        property bool save_started: false
     }
 
     onVisibleChanged: functions.check_saved_changed()
@@ -64,6 +66,35 @@ Page {
             }
         }
 
+        function save_all() {
+            variable.save_started = true
+            variable.save_i = 0
+            timer_save.start()
+        }
+
+        function _save_all() {
+            for(; variable.save_i < variable.count && variable.save_i !== -1; ++variable.save_i) {
+                var element = listModel.get(variable.save_i)
+                if(element.element_saved) {
+                    continue
+                }
+
+                if(kanji_save.save(element.element_literal)) {
+                    element.element_saved = true
+                }
+                else {
+                    panel_save.show()
+                }
+
+                if(variable.save_i%5 === 0) {
+                    timer_save.stop()
+                    timer_save.start()
+                    return
+                }
+            }
+            variable.save_started = false
+        }
+
         function check_saved_changed() {
             var literal_changed = kanji_save.last_changed()
             if(literal_changed !== "") {
@@ -84,6 +115,12 @@ Page {
         onTriggered: functions._update_step()
     }
 
+    Timer {
+        id: timer_save
+        interval: 10
+        onTriggered: functions._save_all()
+    }
+
     ListModel {
         id: listModel
 
@@ -96,8 +133,34 @@ Page {
         anchors.fill: parent
         currentIndex: -1
 
-        header: PageHeader {
-            title: "Search results: " + variable.count
+        PullDownMenu {
+            MenuItem {
+                text: "Save all"
+                visible: !variable.save_started
+                onClicked: functions.save_all()
+            }
+
+            MenuItem {
+                text: "Stop saving Kanji"
+                visible: variable.save_started
+                onClicked: variable.save_i = -1
+            }
+        }
+
+        header: Column {
+            width: parent.width
+
+            ProgressBar {
+                id: save_progress
+                visible: variable.save_started
+                width: parent.width
+                indeterminate: true
+                label: "Saving Kanji"
+            }
+
+            PageHeader {
+                title: "Search results: " + variable.count
+            }
         }
 
         delegate: ListItem {
@@ -201,5 +264,10 @@ Page {
     UpperPanel {
         id: panel
         text: "Can not open Kanji"
+    }
+
+    UpperPanel {
+        id: panel_save
+        text: "Can not save Kanji"
     }
 }
