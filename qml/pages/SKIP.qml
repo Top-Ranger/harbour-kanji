@@ -56,7 +56,7 @@ Page {
             }
 
             PageHeader {
-                title: "About SKIP"
+                title: "SKIP system usage"
             }
 
             Text  {

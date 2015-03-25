@@ -50,7 +50,7 @@ Page {
             }
 
             MenuItem {
-                text: "About SKIP system usage"
+                text: "SKIP system usage"
                 onClicked: pageStack.push(Qt.resolvedUrl("SKIP.qml"))
             }
 
