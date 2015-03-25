@@ -236,7 +236,6 @@ bool search::start_search()
         if(count >= 1)
         {
             _kanji_query.addBindValue(v_1);
-            qDebug() << v_1;
         }
         if(count >= 2)
         {
