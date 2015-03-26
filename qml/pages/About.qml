@@ -109,13 +109,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AN
                 width: about.width
                 font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.Wrap
-                onLinkActivated: Qt.openUrlExternally("file:///usr/share/harbour-kanji/kanjidic2.license.html")
+                onLinkActivated: Qt.openUrlExternally("file:///usr/share/harbour-kanji/cc4.0-by-sa.license.html")
 
                 text: "<html>The database 'kanjidb.sqlite3' is based on the KANJIDIC2 dictionary file (http://www.csse.monash.edu.au/~jwb/kanjidic2/).
 These file is the property of the Electronic Dictionary Research and Development Group (http://www.edrdg.org/), and is used in conformance with the Group's licence.
 The database file is therefore under the same license.
 
-See <a href=\"file:///usr/share/harbour-kanji/kanjidic2.license.html\">/usr/share/harbour-kanji/kanjidic2.license.html</a> for more information.</html>"
+See <a href=\"file:///usr/share/harbour-kanji/cc4.0-by-sa.license.html\">/usr/share/harbour-kanji/cc4.0-by-sa.license.html</a> for more information.</html>"
             }
 
             PageHeader {
@@ -135,11 +135,11 @@ See <a href=\"file:///usr/share/harbour-kanji/kanjidic2.license.html\">/usr/shar
                 width: about.width
                 font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.Wrap
-                onLinkActivated: Qt.openUrlExternally("file:///usr/share/harbour-kanji/kanjidic2.license.html")
+                onLinkActivated: Qt.openUrlExternally("file:///usr/share/harbour-kanji/cc4.0-by-sa.license.html")
 
                 text: "<html>The SKIP (System of Kanji Indexing by Patterns) system for ordering kanji was developed by Jack Halpern (Kanji Dictionary Publishing Society at http://www.kanji.org/), and is used with his permission.
 
-See <a href=\"file:///usr/share/harbour-kanji/kanjidic2.license.html\">/usr/share/harbour-kanji/kanjidic2.license.html</a> for more information.</html>"
+See <a href=\"file:///usr/share/harbour-kanji/cc4.0-by-sa.license.html\">/usr/share/harbour-kanji/cc4.0-by-sa.license.html</a> for more information.</html>"
             }
         }
     }

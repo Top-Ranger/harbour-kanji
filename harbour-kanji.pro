@@ -44,7 +44,6 @@ OTHER_FILES += qml/harbour-kanji.qml \
     harbour-kanji.desktop \
     kanjidb.sqlite3 \
     harbour-kanji.png \
-    kanjidic2.license.html \
     README.md \
     LICENSE.txt \
     qml/pages/Kanji.qml \
@@ -60,7 +59,8 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/RadicalSelection.qml \
     qml/pages/ListDetails.qml \
     qml/pages/SKIP.qml \
-    ChangeLog.txt
+    ChangeLog.txt \
+    cc4.0-by-sa.license.html
 
 HEADERS += \
     src/search.h \
