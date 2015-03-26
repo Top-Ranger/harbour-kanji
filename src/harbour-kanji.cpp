@@ -49,6 +49,7 @@
 #include "lists.h"
 #include "radical.h"
 #include "list_details.h"
+#include "batch_save.h"
 
 bool create_new_settings_db(QSqlDatabase settings);
 bool test_and_update_settings_db(QSqlDatabase settings);
@@ -126,6 +127,7 @@ int main(int argc, char *argv[])
     lists lists_class(settingsdb);
     radical radical_class(kanjidb);
     list_details list_details_class(settingsdb);
+    batch_save batch_save_class(settingsdb);
 
     QQuickView *view = SailfishApp::createView();
 
@@ -136,6 +138,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("lists", &lists_class);
     view->rootContext()->setContextProperty("radical", &radical_class);
     view->rootContext()->setContextProperty("list_details", &list_details_class);
+    view->rootContext()->setContextProperty("batch_save", &batch_save_class);
 
     // Start application
     view->setSource(SailfishApp::pathTo("qml/harbour-kanji.qml"));

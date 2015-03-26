@@ -104,6 +104,8 @@ bool lists::save_to_list(QString list)
     _settings_query.clear();
     _lists_query.clear();
 
+    _settings.transaction();
+
     QString settings_s = QString("SELECT literal FROM saved_kanji");
     QString lists_s = QString("INSERT OR IGNORE INTO kanji_lists (literal, list) VALUES (?, ?)");
 
@@ -144,6 +146,8 @@ bool lists::load_from_list(QString list)
 {
     _settings_query.clear();
     _lists_query.clear();
+
+    _settings.transaction();
 
     QString settings_s = QString("INSERT OR IGNORE INTO saved_kanji (literal) VALUES (?)");
     QString lists_s = QString("SELECT literal FROM kanji_lists WHERE list=?");
