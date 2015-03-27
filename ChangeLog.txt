@@ -1,4 +1,6 @@
 Current development:
+
+Version 1.1:
    * Added SKIP codes
    * Added option to save search results
 
