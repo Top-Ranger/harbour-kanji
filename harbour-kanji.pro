@@ -20,7 +20,7 @@ license.files = LICENSE.txt
 license.path = /usr/share/$${TARGET}
 
 database.files = kanjidb.sqlite3 \
-    kanjidic2.license.html
+    cc4.0-by-sa.license.html
 database.path = /usr/share/$${TARGET}
 
 INSTALLS += license database
