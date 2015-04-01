@@ -69,16 +69,16 @@ Page {
                 id: aboutText
                 focus: true
                 color: Theme.primaryColor
-                width: about.width
-                font.pixelSize: Theme.fontSizeNormal
+                width: skip_page.width
+                font.pixelSize: Theme.fontSizeMedium
                 wrapMode: Text.Wrap
 
                 text: "SKIP (System of Kanji Indexing by Patterns) is an easy system to find Kanji based on their appearence. All Kanji have a classification of three numbers (n-nn-nn). These numbers can be determined as follows:
 
  - If the Kanji can be split vertically the classification is '1 - strokes left side - strokes right side'
  - If the Kanji can be split horizontally the classification is '2 - strokes upper side - strokes lower side'
- - If the Kanji can be split into an inner part and outer part the classification is '2 - strokes inner part - strokes outer part'
- - If none of this applies the classification is '4-strokecount-line number as defined below'
+ - If the Kanji can be split into an inner part and outer part the classification is '3 - strokes inner part - strokes outer part'
+ - If none of this applies the classification is '4 - strokecount - line number as defined below'
 
 The line number is defined as follows:
 
