@@ -118,7 +118,7 @@ Page {
                     color: Theme.primaryColor
                 }
                 Label {
-                    text: listentry.in_list ? "Saved in List" : "Deleted from List"
+                    text: listentry.in_list ? "Saved in list" : "Deleted from list"
                     width: page.width / 3 * 2
                     color: Theme.secondaryColor
                     horizontalAlignment: Text.AlignLeft
