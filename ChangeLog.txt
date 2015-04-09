@@ -1,4 +1,5 @@
 Current development:
+  * Added comments
   * Fixed mistakes in SKIP page
 
 Version 1.1:
