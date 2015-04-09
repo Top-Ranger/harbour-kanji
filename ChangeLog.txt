@@ -1,5 +1,8 @@
 Current development:
+
+Version 1.2:
   * Fixed mistakes in SKIP page
+  * Fixed some small typos
 
 Version 1.1:
    * Added SKIP codes
