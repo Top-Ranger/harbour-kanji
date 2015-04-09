@@ -62,8 +62,11 @@ Dialog {
                 margins: Theme.paddingLarge
             }
 
-            PageHeader {
+            DialogHeader {
+                width: page.width
                 title: "Edit comment for " + comment.get_edit_comment()
+                acceptText: "Save"
+                cancelText: "Discard"
             }
 
             TextArea {
