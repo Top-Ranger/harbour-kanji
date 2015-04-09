@@ -111,6 +111,7 @@ Page {
                 placeholderText: "Name of list for saved Kanji"
                 label: "Name of list for saved Kanji"
                 text: ""
+                maximumLength: 100
             }
 
             PageHeader {
