@@ -27,35 +27,57 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef COMMENT_H
-#define COMMENT_H
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-#include <QObject>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QString>
 
-class comment : public QObject
-{
-    Q_OBJECT
-public:
-    explicit comment(QSqlDatabase settings, QObject *parent = 0);
+Dialog {
+    id: page
 
-    Q_INVOKABLE QString get_comment(QString literal);
-    Q_INVOKABLE bool set_comment(QString literal, QString comment_text);
-    Q_INVOKABLE void edit_comment(QString literal);
-    Q_INVOKABLE QString get_edit_comment();
+    onAccepted: {
+        comment.set_comment(comment.get_edit_comment(), comment_text.text)
+    }
 
-signals:
+    SilicaFlickable {
+        anchors.fill: parent
+        contentHeight: column.height
 
-public slots:
+        VerticalScrollDecorator {}
 
-private:
-    QSqlDatabase _settings;
-    QSqlQuery _settings_query;
+        PullDownMenu {
+            MenuItem {
+                text: "Delete comment"
+                onClicked: remorsePopup.execute("Delete comment", function() { comment.set_comment(comment.get_edit_comment(), ""); pageStack.pop()} )
+            }
+        }
 
-    QString _comment_save;
-};
+        Column {
+            id: column
+            width: page.width
+            spacing: Theme.paddingLarge
 
-#endif // COMMENT_H
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: Theme.paddingLarge
+            }
+
+            PageHeader {
+                title: "Edit comment for " + comment.get_edit_comment()
+            }
+
+            TextArea {
+                id: comment_text
+                width: parent.width
+                height: implicitHeight
+                text: comment.get_comment(comment.get_edit_comment())
+                placeholderText: "Input comment here"
+                label: "Comment"
+            }
+        }
+    }
+
+    RemorsePopup {
+        id: remorsePopup
+    }
+}

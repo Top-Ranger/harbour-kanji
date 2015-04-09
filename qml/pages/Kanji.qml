@@ -41,11 +41,14 @@ Page {
     }
 
     Item {
+        id: functions
         function load_additional_data() {
             translationtext.text = translation.get_translation(variable.literal)
             commenttext.text = comment.get_comment(variable.literal)
         }
     }
+
+    onVisibleChanged: functions.load_additional_data()
 
     SilicaFlickable {
         anchors.fill: parent
@@ -54,6 +57,17 @@ Page {
         VerticalScrollDecorator {}
 
         PullDownMenu {
+
+            MenuItem {
+                text: commenttext.text === "" ? "Add comment" : "Edit comment"
+                onClicked: {
+                    comment.edit_comment(variable.literal)
+                    pageStack.push(Qt.resolvedUrl("EditComment.qml"))
+                }
+            }
+
+
+            // Saved Kanji
 
             MenuItem {
                 visible: !variable.saved

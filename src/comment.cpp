@@ -34,7 +34,8 @@
 comment::comment(QSqlDatabase settings, QObject *parent) :
     QObject(parent),
     _settings(settings),
-    _settings_query(settings)
+    _settings_query(settings),
+    _comment_save("")
 {
 }
 
@@ -96,4 +97,14 @@ bool comment::set_comment(QString literal, QString comment_text)
     }
     _settings.commit();
     return true;
+}
+
+void comment::edit_comment(QString literal)
+{
+    _comment_save = literal;
+}
+
+QString comment::get_edit_comment()
+{
+    return _comment_save;
 }
