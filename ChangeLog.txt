@@ -1,4 +1,5 @@
 Current development:
+   * Added maximum length for list name
 
 Version 1.2:
   * Fixed mistakes in SKIP page
