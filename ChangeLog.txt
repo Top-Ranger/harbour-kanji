@@ -1,5 +1,6 @@
 Current development:
   * Added comments
+  * Added custom translations
   * Fixed mistakes in SKIP page
 
 Version 1.1:

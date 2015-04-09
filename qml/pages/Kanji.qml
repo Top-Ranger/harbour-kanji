@@ -59,6 +59,14 @@ Page {
         PullDownMenu {
 
             MenuItem {
+                text: translationtext.text === "" ? "Add custom translation" : "Edit custom translation"
+                onClicked: {
+                    translation.edit_translation(variable.literal)
+                    pageStack.push(Qt.resolvedUrl("EditTranslation.qml"))
+                }
+            }
+
+            MenuItem {
                 text: commenttext.text === "" ? "Add comment" : "Edit comment"
                 onClicked: {
                     comment.edit_comment(variable.literal)

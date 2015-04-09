@@ -63,7 +63,8 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/SKIP.qml \
     ChangeLog.txt \
     cc4.0-by-sa.license.html \
-    qml/pages/EditComment.qml
+    qml/pages/EditComment.qml \
+    qml/pages/EditTranslation.qml
 
 HEADERS += \
     src/search.h \

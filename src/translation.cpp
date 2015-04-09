@@ -34,7 +34,8 @@
 translation::translation(QSqlDatabase settings, QObject *parent) :
     QObject(parent),
     _settings(settings),
-    _settings_query(settings)
+    _settings_query(settings),
+    _translation_save("")
 {
 }
 
@@ -96,4 +97,14 @@ bool translation::set_translation(QString literal, QString translation_text)
     }
     _settings.commit();
     return true;
+}
+
+void translation::edit_translation(QString literal)
+{
+    _translation_save = literal;
+}
+
+QString translation::get_edit_translation()
+{
+    return _translation_save;
 }

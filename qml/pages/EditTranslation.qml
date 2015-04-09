@@ -27,35 +27,60 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef TRANSLATION_H
-#define TRANSLATION_H
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-#include <QObject>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QString>
 
-class translation : public QObject
-{
-    Q_OBJECT
-public:
-    explicit translation(QSqlDatabase settings, QObject *parent = 0);
+Dialog {
+    id: page
 
-    Q_INVOKABLE QString get_translation(QString literal);
-    Q_INVOKABLE bool set_translation(QString literal, QString translation_text);
-    Q_INVOKABLE void edit_translation(QString literal);
-    Q_INVOKABLE QString get_edit_translation();
+    onAccepted: {
+        translation.set_translation(translation.get_edit_translation(), translation_text.text)
+    }
 
-signals:
+    SilicaFlickable {
+        anchors.fill: parent
+        contentHeight: column.height
 
-public slots:
+        VerticalScrollDecorator {}
 
-private:
-    QSqlDatabase _settings;
-    QSqlQuery _settings_query;
+        PullDownMenu {
+            MenuItem {
+                text: "Delete translation"
+                onClicked: remorsePopup.execute("Delete translation", function() { translation.set_translation(translation.get_edit_translation(), ""); pageStack.pop()} )
+            }
+        }
 
-    QString _translation_save;
-};
+        Column {
+            id: column
+            width: page.width
+            spacing: Theme.paddingLarge
 
-#endif // TRANSLATION_H
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: Theme.paddingLarge
+            }
+
+            DialogHeader {
+                width: page.width
+                title: "Edit custom translation for " + translation.get_edit_translation()
+                acceptText: "Save"
+                cancelText: "Discard"
+            }
+
+            TextArea {
+                id: translation_text
+                width: parent.width
+                height: implicitHeight
+                text: translation.get_translation(translation.get_edit_translation())
+                placeholderText: "Input custom translation here"
+                label: "Translation"
+            }
+        }
+    }
+
+    RemorsePopup {
+        id: remorsePopup
+    }
+}
