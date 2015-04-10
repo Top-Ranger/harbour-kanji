@@ -29,55 +29,20 @@
 
 #include "search.h"
 #include <QDebug>
+#include <QVariant>
+#include <QVariantList>
 
 namespace {
-void add_value(QString &s, QString value, QString key, QString &v_1, QString &v_2, QString &v_3, QString &v_4, QString &v_5, QString &v_6, QString &v_7, QString &v_8, int &count)
+QString get_seperator(int &count)
 {
     ++count;
-    switch(count)
+    if(count == 1)
     {
-    case 1:
-        v_1 = value;
-        s.append(" WHERE ");
-        s.append(key);
-        break;
-    case 2:
-        v_2 = value;
-        s.append(" AND ");
-        s.append(key);
-        break;
-    case 3:
-        v_3 = value;
-        s.append(" AND ");
-        s.append(key);
-        break;
-    case 4:
-        v_4 = value;
-        s.append(" AND ");
-        s.append(key);
-        break;
-    case 5:
-        v_5 = value;
-        s.append(" AND ");
-        s.append(key);
-        break;
-    case 6:
-        v_6 = value;
-        s.append(" AND ");
-        s.append(key);
-        break;
-    case 7:
-        v_7 = value;
-        s.append(" AND ");
-        s.append(key);
-        break;
-    case 8:
-        v_8 = value;
-        s.append(" AND ");
-        s.append(key);
-        break;
-    default:
-        qDebug() << "ERROR in " __FILE__ << " " << __LINE__ << ": Too many search terms";
+        return " WHERE ";
+    }
+    else
+    {
+        return " AND ";
     }
 }
 }
@@ -189,7 +154,7 @@ void search::search_skip(int skip1, int skip2, int skip3)
 
 bool search::start_search()
 {
-    if(_literal == "" && _radical == 0 && _strokecount == 0 && _jlpt == 0 && _meaning == "")
+    if(_literal == "" && _radical == -1 && _strokecount == -1 && _jlpt == -1 && _meaning == "" && _skip1 == 0 && _skip2 == 0 && _skip3 == 0)
     {
         // Get all kanji
         QString s = QString("SELECT literal,meaning FROM kanjidb.kanji");
@@ -212,84 +177,63 @@ bool search::start_search()
     {
         // Search for all fitting kanji
         int count = 0;
+        QVariantList search_list;
 
-        QString v_1;
-        QString v_2;
-        QString v_3;
-        QString v_4;
-        QString v_5;
-        QString v_6;
-        QString v_7;
-        QString v_8;
-
-        QString s = QString("SELECT literal,meaning FROM kanjidb.kanji");
+        QString s = QString("SELECT kanjidb.kanji.literal,meaning FROM kanjidb.kanji LEFT JOIN settingsdb.custom_translation ON kanjidb.kanji.literal=settingsdb.custom_translation.literal");
         if(_literal != "")
         {
-            add_value(s,QString("\%%1\%").arg(_literal),QString("literal LIKE ?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("literal LIKE ?");
+            search_list.append(QString("\%%1\%").arg(_literal));
         }
         if(_radical != -1)
         {
-            add_value(s,QString("%1").arg(_radical),QString("radical=?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("radical=?");
+            search_list.append(_radical);
         }
         if(_strokecount != -1)
         {
-            add_value(s,QString("%1").arg(_strokecount),QString("strokecount=?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("strokecount=?");
+            search_list.append(_strokecount);
         }
         if(_jlpt != -1)
         {
-            add_value(s,QString("%1").arg(_jlpt),QString("JLPT=?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("JLPT=?");
+            search_list.append(_jlpt);
         }
         if(_meaning != "")
         {
-            add_value(s,QString("\%%1\%").arg(_meaning),QString("meaning LIKE ?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("(meaning LIKE ? OR translation LIKE ?)");
+            search_list.append(QString("\%%1\%").arg(_meaning));
+            search_list.append(QString("\%%1\%").arg(_meaning));
         }
         if(_skip1 != 0)
         {
-            add_value(s,QString("%1").arg(_skip1),QString("skip_1=?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("skip_1=?");
+            search_list.append(_skip1);
         }
         if(_skip2 != 0)
         {
-            add_value(s,QString("%1").arg(_skip2),QString("skip_2=?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("skip_2=?");
+            search_list.append(_skip2);
         }
         if(_skip3 != 0)
         {
-            add_value(s,QString("%1").arg(_skip3),QString("skip_3=?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
+            s.append(get_seperator(count));
+            s.append("skip_3=?");
+            search_list.append(_skip3);
         }
 
         _kanji_query.clear();
         _kanji_query.prepare(s);
-
-        if(count >= 1)
-        {
-            _kanji_query.addBindValue(v_1);
-        }
-        if(count >= 2)
-        {
-            _kanji_query.addBindValue(v_2);
-        }
-        if(count >= 3)
-        {
-            _kanji_query.addBindValue(v_3);
-        }
-        if(count >= 4)
-        {
-            _kanji_query.addBindValue(v_4);
-        }
-        if(count >= 5)
-        {
-            _kanji_query.addBindValue(v_5);
-        }
-        if(count >= 6)
-        {
-            _kanji_query.addBindValue(v_6);
-        }
-        if(count >= 7)
-        {
-            _kanji_query.addBindValue(v_7);
-        }
-        if(count >= 8)
-        {
-            _kanji_query.addBindValue(v_8);
+        foreach (QVariant var, search_list) {
+            _kanji_query.addBindValue(var);
         }
 
         qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": SELECT statement:" << s;
