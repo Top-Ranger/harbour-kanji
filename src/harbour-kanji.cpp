@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
     // Add classes to QQuickView
     QGuiApplication *app = SailfishApp::application(argc,argv);
 
-    search search_class(kanjidb, settingsdb);
+    search search_class(path);
     kanjiinfo kanjiinfo_class(kanjidb, settingsdb);
     kanji_save kanji_save_class(settingsdb);
     train train_class(settingsdb);

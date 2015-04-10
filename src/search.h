@@ -40,7 +40,7 @@ class search : public QObject
 {
     Q_OBJECT
 public:
-    explicit search(QSqlDatabase kanji, QSqlDatabase settings, QObject *parent = 0);
+    explicit search(QString settings_path, QObject *parent = 0);
 
     Q_INVOKABLE void clear();
 
@@ -65,6 +65,8 @@ public slots:
 
 private:
     bool next_hidden();
+
+    QSqlDatabase _database;
 
     QSqlQuery _kanji_query;
     QSqlQuery _settings_query;

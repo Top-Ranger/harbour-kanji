@@ -82,10 +82,11 @@ void add_value(QString &s, QString value, QString key, QString &v_1, QString &v_
 }
 }
 
-search::search(QSqlDatabase kanji, QSqlDatabase settings, QObject *parent) :
+search::search(QString settings_path, QObject *parent) :
     QObject(parent),
-    _kanji_query(kanji),
-    _settings_query(settings),
+    _database(),
+    _kanji_query(),
+    _settings_query(),
     _literal_result(""),
     _meaning_result(""),
     _saved(""),
@@ -101,6 +102,31 @@ search::search(QSqlDatabase kanji, QSqlDatabase settings, QObject *parent) :
     _skip3(0),
     _search_started(false)
 {
+    _database = QSqlDatabase::addDatabase("QSQLITE");
+    _database.setDatabaseName(":memory:");
+    if(!_database.open())
+    {
+        qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not create database";
+    }
+    _kanji_query = QSqlQuery(_database);
+    _settings_query = QSqlQuery(_database);
+
+    QString s = QString("ATTACH DATABASE '/usr/share/harbour-kanji/kanjidb.sqlite3' AS kanjidb");
+    if(!_kanji_query.exec(s))
+    {
+        QString error = s.append(": ").append(_kanji_query.lastError().text());
+        qWarning() << error;
+    }
+    s = QString("ATTACH DATABASE ? AS settingsdb");
+    _kanji_query.clear();
+    _kanji_query.prepare(s);
+    _kanji_query.addBindValue(settings_path);
+    if(!_kanji_query.exec())
+    {
+        QString error = s.append(": ").append(_kanji_query.lastError().text());
+        qWarning() << error;
+    }
+    _kanji_query.clear();
 }
 
 void search::clear()
@@ -166,7 +192,7 @@ bool search::start_search()
     if(_literal == "" && _radical == 0 && _strokecount == 0 && _jlpt == 0 && _meaning == "")
     {
         // Get all kanji
-        QString s = QString("SELECT literal,meaning FROM kanji");
+        QString s = QString("SELECT literal,meaning FROM kanjidb.kanji");
         if(!_kanji_query.exec(s))
         {
             QString error = s.append(": ").append(_kanji_query.lastError().text());
@@ -196,7 +222,7 @@ bool search::start_search()
         QString v_7;
         QString v_8;
 
-        QString s = QString("SELECT literal,meaning FROM kanji");
+        QString s = QString("SELECT literal,meaning FROM kanjidb.kanji");
         if(_literal != "")
         {
             add_value(s,QString("\%%1\%").arg(_literal),QString("literal LIKE ?"),v_1,v_2,v_3,v_4,v_5,v_6,v_7,v_8,count);
@@ -298,7 +324,7 @@ bool search::next_hidden()
         _literal_result = _kanji_query.value(0).toString();
         _meaning_result = _kanji_query.value(1).toString();
 
-        QString s = QString("SELECT count(*) FROM saved_kanji WHERE literal=?");
+        QString s = QString("SELECT count(*) FROM settingsdb.saved_kanji WHERE literal=?");
         _settings_query.prepare(s);
         _settings_query.addBindValue(_literal_result);
         if(_settings_query.exec() && _settings_query.isSelect() && _settings_query.next() && _settings_query.value(0).toInt() > 0)
