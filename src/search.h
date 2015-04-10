@@ -50,6 +50,7 @@ public:
     Q_INVOKABLE void search_jlpt(int jlpt);
     Q_INVOKABLE void search_meaning(QString meaning);
     Q_INVOKABLE void search_skip(int skip1, int skip2, int skip3);
+    Q_INVOKABLE void search_comment(QString comment);
     Q_INVOKABLE void search_saved(bool saved);
 
     Q_INVOKABLE bool start_search();
@@ -87,6 +88,8 @@ private:
     int _skip1;
     int _skip2;
     int _skip3;
+
+    QString _comment;
 
     bool _search_started;
 };

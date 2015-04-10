@@ -65,6 +65,7 @@ search::search(QString settings_path, QObject *parent) :
     _skip1(0),
     _skip2(0),
     _skip3(0),
+    _comment(""),
     _search_started(false)
 {
     _database = QSqlDatabase::addDatabase("QSQLITE");
@@ -111,6 +112,7 @@ void search::clear()
     _skip1 = 0;
     _skip2 = 0;
     _skip3 = 0;
+    _comment = "";
     _search_started = false;
 }
 
@@ -152,9 +154,14 @@ void search::search_skip(int skip1, int skip2, int skip3)
     _skip3 = skip3;
 }
 
+void search::search_comment(QString comment)
+{
+    _comment = comment;
+}
+
 bool search::start_search()
 {
-    if(_literal == "" && _radical == -1 && _strokecount == -1 && _jlpt == -1 && _meaning == "" && _skip1 == 0 && _skip2 == 0 && _skip3 == 0)
+    if(_literal == "" && _radical == -1 && _strokecount == -1 && _jlpt == -1 && _meaning == "" && _skip1 == 0 && _skip2 == 0 && _skip3 == 0 && _comment == "")
     {
         // Get all kanji
         QString s = QString("SELECT literal,meaning FROM kanjidb.kanji");
@@ -179,7 +186,7 @@ bool search::start_search()
         int count = 0;
         QVariantList search_list;
 
-        QString s = QString("SELECT kanjidb.kanji.literal,meaning FROM kanjidb.kanji LEFT JOIN settingsdb.custom_translation ON kanjidb.kanji.literal=settingsdb.custom_translation.literal");
+        QString s = QString("SELECT kanjidb.kanji.literal,kanjidb.kanji.meaning FROM kanjidb.kanji LEFT JOIN settingsdb.custom_translation ON kanjidb.kanji.literal=settingsdb.custom_translation.literal LEFT JOIN settingsdb.comment ON kanjidb.kanji.literal=settingsdb.comment.literal");
         if(_literal != "")
         {
             s.append(get_seperator(count));
@@ -228,6 +235,12 @@ bool search::start_search()
             s.append(get_seperator(count));
             s.append("skip_3=?");
             search_list.append(_skip3);
+        }
+        if(_comment != "")
+        {
+            s.append(get_seperator(count));
+            s.append("comment_text LIKE ?");
+            search_list.append(QString("\%%1\%").arg(_comment));
         }
 
         _kanji_query.clear();
