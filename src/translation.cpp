@@ -35,7 +35,8 @@ translation::translation(QSqlDatabase settings, QObject *parent) :
     QObject(parent),
     _settings(settings),
     _settings_query(settings),
-    _translation_save("")
+    _translation_save(""),
+    _last_changed("")
 {
 }
 
@@ -107,4 +108,14 @@ void translation::edit_translation(QString literal)
 QString translation::get_edit_translation()
 {
     return _translation_save;
+}
+
+QString translation::last_changed()
+{
+    return _last_changed;
+}
+
+void translation::set_last_changed(QString literal)
+{
+    _last_changed = literal;
 }

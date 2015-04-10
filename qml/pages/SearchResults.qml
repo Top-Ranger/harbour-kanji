@@ -41,7 +41,10 @@ Page {
         property int count: 0
     }
 
-    onVisibleChanged: functions.check_saved_changed()
+    onVisibleChanged: {
+        functions.check_saved_changed()
+        functions.check_translation_changed()
+    }
 
     Item {
         id: functions
@@ -89,6 +92,20 @@ Page {
                 for(var i = 0; i < variable.count; i++) {
                     if(listModel.get(i).element_literal === literal_changed) {
                         listModel.get(i).element_saved = kanji_save.last_changed_value()
+                        return
+                    }
+                }
+            }
+        }
+
+
+        function check_translation_changed() {
+            var literal_changed = translation.last_changed()
+            if(literal_changed !== "") {
+                translation.set_last_changed("")
+                for(var i = 0; i < variable.count; i++) {
+                    if(listModel.get(i).element_literal === literal_changed) {
+                        listModel.get(i).element_translation = translation.get_translation(literal_changed)
                         return
                     }
                 }

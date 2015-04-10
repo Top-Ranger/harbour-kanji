@@ -36,6 +36,7 @@ Dialog {
 
     onAccepted: {
         translation.set_translation(translation.get_edit_translation(), translation_text.text)
+        translation.set_last_changed(translation.get_edit_translation())
     }
 
     SilicaFlickable {
@@ -47,7 +48,7 @@ Dialog {
         PullDownMenu {
             MenuItem {
                 text: "Delete translation"
-                onClicked: remorsePopup.execute("Delete translation", function() { translation.set_translation(translation.get_edit_translation(), ""); pageStack.pop()} )
+                onClicked: remorsePopup.execute("Delete translation", function() { translation.set_translation(translation.get_edit_translation(), ""); translation.set_last_changed(translation.get_edit_translation()); pageStack.pop()} )
             }
         }
 

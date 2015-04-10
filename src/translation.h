@@ -46,6 +46,8 @@ public:
     Q_INVOKABLE bool set_translation(QString literal, QString translation_text);
     Q_INVOKABLE void edit_translation(QString literal);
     Q_INVOKABLE QString get_edit_translation();
+    Q_INVOKABLE QString last_changed();
+    Q_INVOKABLE void set_last_changed(QString literal);
 
 signals:
 
@@ -56,6 +58,7 @@ private:
     QSqlQuery _settings_query;
 
     QString _translation_save;
+    QString _last_changed;
 };
 
 #endif // TRANSLATION_H
