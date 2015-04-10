@@ -1,9 +1,11 @@
 Current development:
    * Added maximum length for list name
+   * Added comments
+   * Added custom translations
 
 Version 1.2:
-  * Fixed mistakes in SKIP page
-  * Fixed some small typos
+   * Fixed mistakes in SKIP page
+   * Fixed some small typos
 
 Version 1.1:
    * Added SKIP codes

@@ -50,6 +50,8 @@
 #include "radical.h"
 #include "list_details.h"
 #include "batch_save.h"
+#include "comment.h"
+#include "translation.h"
 
 bool create_new_settings_db(QSqlDatabase settings);
 bool test_and_update_settings_db(QSqlDatabase settings);
@@ -120,7 +122,7 @@ int main(int argc, char *argv[])
     // Add classes to QQuickView
     QGuiApplication *app = SailfishApp::application(argc,argv);
 
-    search search_class(kanjidb, settingsdb);
+    search search_class(path);
     kanjiinfo kanjiinfo_class(kanjidb, settingsdb);
     kanji_save kanji_save_class(settingsdb);
     train train_class(settingsdb);
@@ -128,6 +130,9 @@ int main(int argc, char *argv[])
     radical radical_class(kanjidb);
     list_details list_details_class(settingsdb);
     batch_save batch_save_class(settingsdb);
+    comment comment_class(settingsdb);
+    translation translation_class(settingsdb);
+
 
     QQuickView *view = SailfishApp::createView();
 
@@ -139,6 +144,8 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("radical", &radical_class);
     view->rootContext()->setContextProperty("list_details", &list_details_class);
     view->rootContext()->setContextProperty("batch_save", &batch_save_class);
+    view->rootContext()->setContextProperty("comment", &comment_class);
+    view->rootContext()->setContextProperty("translation", &translation_class);
 
     // Start application
     view->setSource(SailfishApp::pathTo("qml/harbour-kanji.qml"));
@@ -157,8 +164,10 @@ bool create_new_settings_db(QSqlDatabase settings)
     operations.append("CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT)");
     operations.append("CREATE TABLE saved_kanji (literal TEXT PRIMARY KEY)");
     operations.append("CREATE TABLE kanji_lists (literal TEXT, list TEXT, PRIMARY KEY(literal, list))");
+    operations.append("CREATE TABLE comment (literal TEXT PRIMARY KEY, comment_text TEXT)");
+    operations.append("CREATE TABLE custom_translation (literal TEXT PRIMARY KEY, translation TEXT)");
     operations.append("CREATE TABLE settings (literal TEXT PRIMARY KEY)");
-    operations.append("INSERT INTO meta VALUES ('settings_version', '1')");
+    operations.append("INSERT INTO meta VALUES ('settings_version', '2')");
 
     foreach(QString s, operations)
     {
@@ -176,6 +185,7 @@ bool create_new_settings_db(QSqlDatabase settings)
 bool test_and_update_settings_db(QSqlDatabase settings)
 {
     QSqlQuery query(settings);
+    QStringList operations;
     QString s = QString("SELECT value FROM meta WHERE key='settings_version'");
 
     if(!query.exec(s))
@@ -200,9 +210,28 @@ bool test_and_update_settings_db(QSqlDatabase settings)
     {
     // Upgrade settings
     case 1:
-        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Used 'settings_version'=1";
+        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Upgrade 'settings_version'=1 to 'settings_version'=2";
+        query.clear();
+        operations.clear();
+        operations.append("CREATE TABLE comment (literal TEXT PRIMARY KEY, comment_text TEXT)");
+        operations.append("CREATE TABLE custom_translation (literal TEXT PRIMARY KEY, translation TEXT)");
+        operations.append("UPDATE OR FAIL meta SET value='2' WHERE key='settings_version'");
+        foreach(s, operations)
+        {
+            if(!query.exec(s))
+            {
+                QString error = s.append(": ").append(query.lastError().text());
+                qWarning() << error;
+                return false;
+            }
+        }
+        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Upgrade complete";
+
+    case 2:
+        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Used 'settings_version'=2";
         return true;
         break;
+
     default:
         qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Unknown 'settings_version'";
         return false;

@@ -58,7 +58,7 @@ Page {
         Column {
             id: column
             width: page.width
-            spacing: Theme.paddingLarge
+            spacing: Theme.paddingMedium
 
             anchors {
                 left: parent.left
@@ -235,6 +235,22 @@ Page {
             }
 
             TextSwitch {
+                id: switchcomment
+                width: parent.width
+                text: "Search by comment"
+                onCheckedChanged: commentinput.text = ""
+            }
+
+            TextField {
+                id: commentinput
+                width: parent.width
+                visible: switchcomment.checked
+                EnterKey.onClicked: parent.focus = true
+                placeholderText: "Comment"
+                label: "Comment"
+            }
+
+            TextSwitch {
                 id: switchsaved
                 width: parent.width
                 text: "Search for saved Kanji"
@@ -257,6 +273,8 @@ Page {
                 width: column.width
                 onClicked: {
                     search.clear()
+
+                    // Configure search
 
                     if(switchliteral.checked) {
                         search.search_literal(literalinput.text)
@@ -285,6 +303,12 @@ Page {
                     if(switchsaved.checked) {
                         search.search_saved(savedinput.currentIndex === 0)
                     }
+
+                    if(switchcomment.checked) {
+                        search.search_comment(commentinput.text)
+                    }
+
+                    // Start search
 
                     if(search.start_search()) {
                         pageStack.push(Qt.resolvedUrl("SearchResults.qml"))

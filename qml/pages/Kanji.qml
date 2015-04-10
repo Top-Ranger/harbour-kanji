@@ -40,6 +40,16 @@ Page {
         property string literal: kanjiinfo.literal()
     }
 
+    Item {
+        id: functions
+        function load_additional_data() {
+            translationtext.text = translation.get_translation(variable.literal)
+            commenttext.text = comment.get_comment(variable.literal)
+        }
+    }
+
+    onVisibleChanged: functions.load_additional_data()
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
@@ -47,6 +57,25 @@ Page {
         VerticalScrollDecorator {}
 
         PullDownMenu {
+
+            MenuItem {
+                text: translationtext.text === "" ? "Add custom translation" : "Edit custom translation"
+                onClicked: {
+                    translation.edit_translation(variable.literal)
+                    pageStack.push(Qt.resolvedUrl("EditTranslation.qml"))
+                }
+            }
+
+            MenuItem {
+                text: commenttext.text === "" ? "Add comment" : "Edit comment"
+                onClicked: {
+                    comment.edit_comment(variable.literal)
+                    pageStack.push(Qt.resolvedUrl("EditComment.qml"))
+                }
+            }
+
+
+            // Saved Kanji
 
             MenuItem {
                 visible: !variable.saved
@@ -95,6 +124,23 @@ Page {
                 x: page.width/2 - width
                 text: kanjiinfo.literal()
                 font.pixelSize: Theme.fontSizeExtraLarge
+            }
+
+            Row  {
+                visible: translationtext.text !== ""
+
+                Label {
+                    id: labeltranslation
+                    text: "Translation: "
+                    color: Theme.highlightColor
+                }
+                Text {
+                    id: translationtext
+                    width: column.width - labeltranslation.width
+                    color: Theme.primaryColor
+                    wrapMode: Text.Wrap
+                    text: ""
+                }
             }
 
             Row  {
@@ -205,6 +251,23 @@ Page {
                     height: labelsaved.height
                     width: height
                     source: variable.saved ? "star.png" : "no_star.png"
+                }
+            }
+
+            Row  {
+                visible: commenttext.text !== ""
+
+                Label {
+                    id: labelcomment
+                    text: "Comment: "
+                    color: Theme.highlightColor
+                }
+                Text {
+                    id: commenttext
+                    width: column.width - labelcomment.width
+                    color: Theme.primaryColor
+                    wrapMode: Text.Wrap
+                    text: ""
                 }
             }
         }

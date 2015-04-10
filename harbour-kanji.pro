@@ -33,7 +33,9 @@ SOURCES += src/harbour-kanji.cpp \
     src/lists.cpp \
     src/radical.cpp \
     src/list_details.cpp \
-    src/batch_save.cpp
+    src/batch_save.cpp \
+    src/comment.cpp \
+    src/translation.cpp
 
 OTHER_FILES += qml/harbour-kanji.qml \
     qml/cover/CoverPage.qml \
@@ -60,7 +62,9 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/ListDetails.qml \
     qml/pages/SKIP.qml \
     ChangeLog.txt \
-    cc4.0-by-sa.license.html
+    cc4.0-by-sa.license.html \
+    qml/pages/EditComment.qml \
+    qml/pages/EditTranslation.qml
 
 HEADERS += \
     src/search.h \
@@ -70,5 +74,7 @@ HEADERS += \
     src/lists.h \
     src/radical.h \
     src/list_details.h \
-    src/batch_save.h
+    src/batch_save.h \
+    src/comment.h \
+    src/translation.h
 

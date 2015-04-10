@@ -41,7 +41,10 @@ Page {
         property int count: 0
     }
 
-    onVisibleChanged: functions.check_saved_changed()
+    onVisibleChanged: {
+        functions.check_saved_changed()
+        functions.check_translation_changed()
+    }
 
     Item {
         id: functions
@@ -54,7 +57,7 @@ Page {
 
         function _update_step() {
             while(search.next()) {
-                listModel.append({"element_literal": search.literal(), "element_meaning": search.meaning(), "element_saved": search.kanji_is_saved()})
+                listModel.append({"element_literal": search.literal(), "element_meaning": search.meaning(), "element_saved": search.kanji_is_saved(), "element_translation": translation.get_translation(search.literal())})
                 variable.count += 1
                 if(variable.count%100 === 0) {
                     timer.stop()
@@ -89,6 +92,20 @@ Page {
                 for(var i = 0; i < variable.count; i++) {
                     if(listModel.get(i).element_literal === literal_changed) {
                         listModel.get(i).element_saved = kanji_save.last_changed_value()
+                        return
+                    }
+                }
+            }
+        }
+
+
+        function check_translation_changed() {
+            var literal_changed = translation.last_changed()
+            if(literal_changed !== "") {
+                translation.set_last_changed("")
+                for(var i = 0; i < variable.count; i++) {
+                    if(listModel.get(i).element_literal === literal_changed) {
+                        listModel.get(i).element_translation = translation.get_translation(literal_changed)
                         return
                     }
                 }
@@ -133,7 +150,7 @@ Page {
             id: kanjientry
 
             property string literal: element_literal
-            property string meaning: element_meaning
+            property string meaning: element_translation !== "" ? element_translation : element_meaning
             property bool saved: element_saved
 
             width: parent.width

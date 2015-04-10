@@ -27,71 +27,60 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef SEARCH_H
-#define SEARCH_H
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-#include <QObject>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QString>
 
-class search : public QObject
-{
-    Q_OBJECT
-public:
-    explicit search(QString settings_path, QObject *parent = 0);
+Dialog {
+    id: page
 
-    Q_INVOKABLE void clear();
+    onAccepted: {
+        comment.set_comment(comment.get_edit_comment(), comment_text.text)
+    }
 
-    Q_INVOKABLE void search_literal(QString literal);
-    Q_INVOKABLE void search_radical(int radical);
-    Q_INVOKABLE void search_strokecount(int strokecount);
-    Q_INVOKABLE void search_jlpt(int jlpt);
-    Q_INVOKABLE void search_meaning(QString meaning);
-    Q_INVOKABLE void search_skip(int skip1, int skip2, int skip3);
-    Q_INVOKABLE void search_comment(QString comment);
-    Q_INVOKABLE void search_saved(bool saved);
+    SilicaFlickable {
+        anchors.fill: parent
+        contentHeight: column.height
 
-    Q_INVOKABLE bool start_search();
+        VerticalScrollDecorator {}
 
-    Q_INVOKABLE bool next();
-    Q_INVOKABLE QString literal();
-    Q_INVOKABLE QString meaning();
-    Q_INVOKABLE bool kanji_is_saved();
+        PullDownMenu {
+            MenuItem {
+                text: "Delete comment"
+                onClicked: remorsePopup.execute("Delete comment", function() { comment.set_comment(comment.get_edit_comment(), ""); pageStack.pop()} )
+            }
+        }
 
-signals:
+        Column {
+            id: column
+            width: page.width
+            spacing: Theme.paddingLarge
 
-public slots:
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: Theme.paddingLarge
+            }
 
-private:
-    bool next_hidden();
+            DialogHeader {
+                width: page.width
+                title: "Edit comment for " + comment.get_edit_comment()
+                acceptText: "Save"
+                cancelText: "Discard"
+            }
 
-    QSqlDatabase _database;
+            TextArea {
+                id: comment_text
+                width: parent.width
+                height: implicitHeight
+                text: comment.get_comment(comment.get_edit_comment())
+                placeholderText: "Input comment here"
+                label: "Comment"
+            }
+        }
+    }
 
-    QSqlQuery _kanji_query;
-    QSqlQuery _settings_query;
-
-    QString _literal_result;
-    QString _meaning_result;
-    bool _saved;
-
-    QString _literal;
-    int _radical;
-    int _strokecount;
-    int _jlpt;
-    QString _meaning;
-
-    bool _search_for_saved;
-    bool _saved_search_value;
-
-    int _skip1;
-    int _skip2;
-    int _skip3;
-
-    QString _comment;
-
-    bool _search_started;
-};
-
-#endif // SEARCH_H
+    RemorsePopup {
+        id: remorsePopup
+    }
+}
