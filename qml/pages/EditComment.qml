@@ -73,6 +73,7 @@ Dialog {
                 id: comment_text
                 width: parent.width
                 height: implicitHeight
+                focus: true
                 text: comment.get_comment(comment.get_edit_comment())
                 placeholderText: "Input comment here"
                 label: "Comment"

@@ -74,6 +74,7 @@ Dialog {
                 id: translation_text
                 width: parent.width
                 height: implicitHeight
+                focus: true
                 text: translation.get_translation(translation.get_edit_translation())
                 placeholderText: "Input custom translation here"
                 label: "Translation"
