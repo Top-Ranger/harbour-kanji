@@ -48,7 +48,7 @@ Page {
         }
     }
 
-    onVisibleChanged: functions.load_additional_data()
+    onStatusChanged: functions.load_additional_data()
 
     SilicaFlickable {
         anchors.fill: parent
