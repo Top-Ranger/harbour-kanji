@@ -69,6 +69,8 @@ Page {
                     kun_text.text = kanjiinfo.KUNreading()
                     nanori_text.text = kanjiinfo.nanori()
                     skip_text.text = kanjiinfo.valid_skip() ? ("" + kanjiinfo.skip1() + "-" + kanjiinfo.skip2() + "-" + kanjiinfo.skip3()) : ""
+                    translation_text.text = translation.get_translation(variable.literal)
+                    comment_text.text = comment.get_comment(variable.literal)
                 }
                 else {
                     panel.show()
@@ -106,6 +108,25 @@ Page {
                 x: page.width/2 - width
                 text: variable.literal
                 font.pixelSize: Theme.fontSizeExtraLarge
+            }
+
+            Row  {
+                visible: !variable.finished && translation_text.text !== "" && variable.showall
+
+                Label {
+                    id: labeltranslation
+                    visible: !variable.finished
+                    text: "Translation: "
+                    color: Theme.highlightColor
+                }
+                Text {
+                    id: translation_text
+                    width: column.width - labeltranslation.width
+                    visible: !variable.finished && variable.showall
+                    color: Theme.primaryColor
+                    wrapMode: Text.Wrap
+                    text: ""
+                }
             }
 
             Row  {
@@ -212,6 +233,25 @@ Page {
                     id: skip_text
                     visible: !variable.finished && variable.showall
                     width: column.width - labelskip.width
+                    color: Theme.primaryColor
+                    wrapMode: Text.Wrap
+                    text: ""
+                }
+            }
+
+            Row  {
+                visible: !variable.finished && comment_text.text !== "" && variable.showall
+
+                Label {
+                    id: labelcomment
+                    visible: !variable.finished
+                    text: "Comment: "
+                    color: Theme.highlightColor
+                }
+                Text {
+                    id: comment_text
+                    width: column.width - labelcomment.width
+                    visible: !variable.finished && variable.showall
                     color: Theme.primaryColor
                     wrapMode: Text.Wrap
                     text: ""
