@@ -1,4 +1,6 @@
 Current development:
+
+Version 1.3:
    * Added maximum length for list name
    * Added comments
    * Added custom translations
