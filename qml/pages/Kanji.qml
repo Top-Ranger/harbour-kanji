@@ -43,8 +43,10 @@ Page {
     Item {
         id: functions
         function load_additional_data() {
-            translationtext.text = translation.get_translation(variable.literal)
-            commenttext.text = comment.get_comment(variable.literal)
+            if(page.status == PageStatus.Active) {
+                translationtext.text = translation.get_translation(variable.literal)
+                commenttext.text = comment.get_comment(variable.literal)
+            }
         }
     }
 
