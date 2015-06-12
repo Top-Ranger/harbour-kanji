@@ -166,8 +166,8 @@ bool create_new_settings_db(QSqlDatabase settings)
     operations.append("CREATE TABLE kanji_lists (literal TEXT, list TEXT, PRIMARY KEY(literal, list))");
     operations.append("CREATE TABLE comment (literal TEXT PRIMARY KEY, comment_text TEXT)");
     operations.append("CREATE TABLE custom_translation (literal TEXT PRIMARY KEY, translation TEXT)");
-    operations.append("CREATE TABLE settings (literal TEXT PRIMARY KEY)");
-    operations.append("INSERT INTO meta VALUES ('settings_version', '2')");
+    operations.append("CREATE INDEX idx_kanji_lists_list ON kanji_lists(list)");
+    operations.append("INSERT INTO meta VALUES ('settings_version', '3')");
 
     foreach(QString s, operations)
     {
@@ -216,6 +216,13 @@ bool test_and_update_settings_db(QSqlDatabase settings)
         operations.append("CREATE TABLE comment (literal TEXT PRIMARY KEY, comment_text TEXT)");
         operations.append("CREATE TABLE custom_translation (literal TEXT PRIMARY KEY, translation TEXT)");
         operations.append("UPDATE OR FAIL meta SET value='2' WHERE key='settings_version'");
+
+    case 2:
+        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Upgrade 'settings_version'=2 to 'settings_version'=3";
+        operations.append("CREATE INDEX idx_kanji_lists_list ON kanji_lists(list)");
+        operations.append("DROP TABLE settings");
+        operations.append("UPDATE OR FAIL meta SET value='3' WHERE key='settings_version'");
+
         foreach(s, operations)
         {
             if(!query.exec(s))
@@ -227,8 +234,8 @@ bool test_and_update_settings_db(QSqlDatabase settings)
         }
         qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Upgrade complete";
 
-    case 2:
-        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Used 'settings_version'=2";
+    case 3:
+        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": Used 'settings_version'=3";
         return true;
         break;
 

@@ -115,7 +115,7 @@ Page {
 
     Timer {
         id: timer
-        interval: 10
+        interval: 2
         onTriggered: functions._update_step()
     }
 
