@@ -1,5 +1,6 @@
 Current development:
    * Optimized settings database
+   * Optimized kanji database
 
 Version 1.3:
    * Added maximum length for list name
