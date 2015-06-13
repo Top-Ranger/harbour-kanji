@@ -50,7 +50,7 @@ bool batch_save::start_transaction()
 
 bool batch_save::save(QString literal)
 {
-    QString s = QString("INSERT OR FAIL INTO saved_kanji (literal) VALUES (?)");
+    QString s = QString("INSERT OR IGNORE INTO saved_kanji (literal) VALUES (?)");
     _settings_query.prepare(s);
     _settings_query.addBindValue(literal);
     if(!_settings_query.exec())

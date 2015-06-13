@@ -71,9 +71,6 @@ Page {
             batch_save.start_transaction()
             for(var i = 0; i < variable.count; ++i) {
                 var element = listModel.get(i)
-                if(element.element_saved) {
-                    continue
-                }
 
                 if(batch_save.save(element.element_literal)) {
                     element.element_saved = true
