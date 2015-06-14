@@ -29,6 +29,7 @@
 
 #include "batch_save.h"
 #include <QDebug>
+#include <QVariant>
 
 batch_save::batch_save(QSqlDatabase settings, QObject *parent) :
     QObject(parent),
@@ -69,6 +70,26 @@ bool batch_save::commit()
     if(!_settings.commit())
     {
         qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not commit";
+        return false;
+    }
+    return true;
+}
+
+bool batch_save::save_array(QVariantList array)
+{
+    if(!start_transaction())
+    {
+        return false;
+    }
+    foreach (QVariant s, array)
+    {
+        if(!save(s.toString()))
+        {
+            return false;
+        }
+    }
+    if(!commit())
+    {
         return false;
     }
     return true;

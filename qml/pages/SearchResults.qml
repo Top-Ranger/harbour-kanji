@@ -68,18 +68,20 @@ Page {
         }
 
         function save_all() {
-            batch_save.start_transaction()
+            var array = []
             for(var i = 0; i < variable.count; ++i) {
-                var element = listModel.get(i)
-
-                if(batch_save.save(element.element_literal)) {
-                    element.element_saved = true
-                }
-                else {
-                    panel_save.show()
+                array.push(listModel.get(i).element_literal)
+            }
+            if(batch_save.save_array(array))
+            {
+                for(var i = 0; i < variable.count; ++i) {
+                    listModel.setProperty(i, "element_saved", true)
                 }
             }
-            batch_save.commit()
+            else
+            {
+                panel_save.show()
+            }
         }
 
         function check_saved_changed() {

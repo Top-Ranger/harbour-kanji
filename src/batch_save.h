@@ -35,6 +35,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QString>
+#include <QVariantList>
 
 class batch_save : public QObject
 {
@@ -45,6 +46,7 @@ public:
     Q_INVOKABLE bool start_transaction();
     Q_INVOKABLE bool save(QString literal);
     Q_INVOKABLE bool commit();
+    Q_INVOKABLE bool save_array(QVariantList array);
 
 signals:
 
