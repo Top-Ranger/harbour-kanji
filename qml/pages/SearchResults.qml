@@ -74,9 +74,11 @@ Page {
             }
             if(batch_save.save_array(array))
             {
+                list.visible = false
                 for(var i = 0; i < variable.count; ++i) {
                     listModel.setProperty(i, "element_saved", true)
                 }
+                list.visible = true
             }
             else
             {
@@ -129,6 +131,7 @@ Page {
         model: listModel
         anchors.fill: parent
         currentIndex: -1
+        visible: true
 
         PullDownMenu {
             MenuItem {
