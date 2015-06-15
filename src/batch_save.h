@@ -55,6 +55,7 @@ public slots:
 private:
     QSqlDatabase _settings;
     QSqlQuery _settings_query;
+    bool _transaction_started;
 };
 
 #endif // BATCH_SAVE_H

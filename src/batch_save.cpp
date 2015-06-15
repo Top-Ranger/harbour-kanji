@@ -34,7 +34,8 @@
 batch_save::batch_save(QSqlDatabase settings, QObject *parent) :
     QObject(parent),
     _settings(settings),
-    _settings_query(settings)
+    _settings_query(settings),
+    _transaction_started(false)
 {
 }
 
@@ -46,11 +47,16 @@ bool batch_save::start_transaction()
         qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not start transaction";
         return false;
     }
+    _transaction_started = true;
     return true;
 }
 
 bool batch_save::save(QString literal)
 {
+    if(!_transaction_started)
+    {
+        return false;
+    }
     QString s = QString("INSERT OR IGNORE INTO saved_kanji (literal) VALUES (?)");
     _settings_query.prepare(s);
     _settings_query.addBindValue(literal);
@@ -59,6 +65,12 @@ bool batch_save::save(QString literal)
         QString error = s.append(": ").append(_settings_query.lastError().text());
         qWarning() << error;
         _settings_query.clear();
+
+        if(!_settings_query.exec("ROLLBACK"))
+        {
+            qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not rollbach transaction";
+        }
+        _transaction_started = false;
         return false;
     }
     return true;
@@ -66,13 +78,23 @@ bool batch_save::save(QString literal)
 
 bool batch_save::commit()
 {
+    if(!_transaction_started)
+    {
+        return false;
+    }
     if(!_settings.commit())
     {
         qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not commit";
         _settings_query.clear();
+        if(!_settings_query.exec("ROLLBACK"))
+        {
+            qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not rollbach transaction";
+        }
+        _transaction_started = false;
         return false;
     }
     _settings_query.clear();
+    _transaction_started = false;
     return true;
 }
 
