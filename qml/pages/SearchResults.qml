@@ -200,10 +200,14 @@ Page {
                     visible: !saved
                     onClicked: {
                         if(literal !== "") {
-                            kanji_save.save(literal)
-                            kanji_save.set_last_changed(literal)
-                            kanji_save.set_last_changed_value(true)
-                            functions.check_saved_changed()
+                            if(kanji_save.save(literal)) {
+                                kanji_save.set_last_changed(literal)
+                                kanji_save.set_last_changed_value(true)
+                                functions.check_saved_changed()
+                            }
+                            else {
+                                panel_save.show()
+                            }
                         }
                     }
                 }
@@ -213,10 +217,14 @@ Page {
                     visible: saved
                     onClicked: {
                         if(literal !== "") {
-                            kanji_save.unsave(literal)
-                            kanji_save.set_last_changed(literal)
-                            kanji_save.set_last_changed_value(false)
-                            functions.check_saved_changed()
+                            if(kanji_save.unsave(literal)) {
+                                kanji_save.set_last_changed(literal)
+                                kanji_save.set_last_changed_value(false)
+                                functions.check_saved_changed()
+                            }
+                            else {
+                                panel_remove.show()
+                            }
                         }
                     }
                 }
@@ -254,5 +262,10 @@ Page {
     UpperPanel {
         id: panel_save
         text: "Can not save Kanji"
+    }
+
+    UpperPanel {
+        id: panel_remove
+        text: "Can not remove Kanji from saved"
     }
 }

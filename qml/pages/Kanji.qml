@@ -83,11 +83,13 @@ Page {
                 visible: !variable.saved
                 text: "Save Kanji"
                 onClicked: {
-                    if(kanji_save.save(variable.literal))
-                    {
+                    if(kanji_save.save(variable.literal)) {
                         kanji_save.set_last_changed(variable.literal)
                         variable.saved = true
                         kanji_save.set_last_changed_value(variable.saved)
+                    }
+                    else {
+                        panel_save.show()
                     }
                 }
             }
@@ -96,11 +98,13 @@ Page {
                 visible: variable.saved
                 text: "Remove Kanji from saved"
                 onClicked: {
-                    if(kanji_save.unsave(variable.literal))
-                    {
+                    if(kanji_save.unsave(variable.literal)) {
                         kanji_save.set_last_changed(variable.literal)
                         variable.saved = false
                         kanji_save.set_last_changed_value(variable.saved)
+                    }
+                    else {
+                        panel_remove.show()
                     }
                 }
             }
@@ -273,5 +277,15 @@ Page {
                 }
             }
         }
+    }
+
+    UpperPanel {
+        id: panel_save
+        text: "Can not save Kanji"
+    }
+
+    UpperPanel {
+        id: panel_remove
+        text: "Can not remove Kanji from saved"
     }
 }
