@@ -36,6 +36,17 @@ import Sailfish.Silica 1.0
 Page {
     id: page
 
+    // Reset all queries when this page is shown
+    onStatusChanged: {
+            if(page.status === PageStatus.Active) {
+                search.clear()
+                kanjiinfo.clear()
+                lists.clear()
+                radical.clear()
+                list_details.clear()
+            }
+        }
+
     // To enable PullDownMenu, place our content in a SilicaFlickable
     SilicaFlickable {
         anchors.fill: parent
