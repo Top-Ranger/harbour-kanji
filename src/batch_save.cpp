@@ -66,12 +66,13 @@ bool batch_save::save(QString literal)
 
 bool batch_save::commit()
 {
-    _settings_query.clear();
     if(!_settings.commit())
     {
         qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not commit";
+        _settings_query.clear();
         return false;
     }
+    _settings_query.clear();
     return true;
 }
 
