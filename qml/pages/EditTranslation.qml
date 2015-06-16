@@ -47,6 +47,7 @@ Dialog {
             page.canAccept = !search.search_started()
             db_busy.visible = search.search_started()
             db_busy_label.visible = search.search_started()
+            pulldown.visible = !search.search_started()
         }
     }
 
@@ -57,6 +58,8 @@ Dialog {
         VerticalScrollDecorator {}
 
         PullDownMenu {
+            id: pulldown
+            visible: !search.search_started()
             MenuItem {
                 text: "Delete translation"
                 onClicked: remorsePopup.execute("Delete translation", function() { translation.set_translation(translation.get_edit_translation(), ""); translation.set_last_changed(translation.get_edit_translation()); pageStack.pop()} )

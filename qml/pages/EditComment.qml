@@ -46,6 +46,7 @@ Dialog {
             page.canAccept = !search.search_started()
             db_busy.visible = search.search_started()
             db_busy_label.visible = search.search_started()
+            pulldown.visible = !search.search_started()
         }
     }
 
@@ -56,6 +57,8 @@ Dialog {
         VerticalScrollDecorator {}
 
         PullDownMenu {
+            id: pulldown
+            visible: !search.search_started()
             MenuItem {
                 text: "Delete comment"
                 onClicked: remorsePopup.execute("Delete comment", function() { comment.set_comment(comment.get_edit_comment(), ""); pageStack.pop()} )
