@@ -66,7 +66,7 @@ bool batch_save::save(QString literal)
         qWarning() << error;
         _settings_query.clear();
 
-        if(!_settings_query.exec("ROLLBACK"))
+        if(!_settings.rollback())
         {
             qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not rollbach transaction";
         }
@@ -86,7 +86,7 @@ bool batch_save::commit()
     {
         qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not commit";
         _settings_query.clear();
-        if(!_settings_query.exec("ROLLBACK"))
+        if(!_settings.rollback())
         {
             qCritical() << "ERROR in " __FILE__ << " " << __LINE__ << ": Can not rollbach transaction";
         }
