@@ -59,8 +59,10 @@ public:
     Q_INVOKABLE QString literal();
     Q_INVOKABLE QString meaning();
     Q_INVOKABLE bool kanji_is_saved();
+    Q_INVOKABLE bool search_started();
 
 signals:
+    void search_started_changed();
 
 public slots:
 

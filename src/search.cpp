@@ -114,6 +114,7 @@ void search::clear()
     _skip3 = 0;
     _comment = "";
     _search_started = false;
+    emit search_started_changed();
 }
 
 void search::search_literal(QString literal)
@@ -170,6 +171,7 @@ bool search::start_search()
             QString error = s.append(": ").append(_kanji_query.lastError().text());
             qWarning() << error;
             _search_started = false;
+            emit search_started_changed();
             return false;
         }
         if(!_kanji_query.isSelect())
@@ -177,6 +179,7 @@ bool search::start_search()
             QString error = s.append(": No SELECT");
             qWarning() << error;
             _search_started = false;
+            emit search_started_changed();
             return false;
         }
     }
@@ -256,6 +259,7 @@ bool search::start_search()
             QString error = s.append(": ").append(_kanji_query.lastError().text());
             qWarning() << error;
             _search_started = false;
+            emit search_started_changed();
             return false;
         }
         if(!_kanji_query.isSelect())
@@ -263,10 +267,12 @@ bool search::start_search()
             QString error = s.append(": No SELECT");
             qWarning() << error;
             _search_started = false;
+            emit search_started_changed();
             return false;
         }
     }
     _search_started = true;
+    emit search_started_changed();
     return true;
 }
 
@@ -298,6 +304,7 @@ bool search::next_hidden()
     else
     {
         _search_started = false;
+        emit search_started_changed();
         return false;
     }
 }
@@ -338,4 +345,9 @@ QString search::meaning()
 bool search::kanji_is_saved()
 {
     return _saved;
+}
+
+bool search::search_started()
+{
+    return _search_started;
 }

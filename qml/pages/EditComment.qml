@@ -38,6 +38,17 @@ Dialog {
         comment.set_comment(comment.get_edit_comment(), comment_text.text)
     }
 
+    canAccept: !search.search_started()
+
+    Connections {
+        target: search
+        onSearch_started_changed: {
+            page.canAccept = !search.search_started()
+            db_busy.visible = search.search_started()
+            db_busy_label.visible = search.search_started()
+        }
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
@@ -77,6 +88,21 @@ Dialog {
                 text: comment.get_comment(comment.get_edit_comment())
                 placeholderText: "Input comment here"
                 label: "Comment"
+            }
+
+            BusyIndicator {
+                id: db_busy
+                x: column.width / 2 - (width/2)
+                running: true
+                size: BusyIndicatorSize.Medium
+                visible: search.search_started()
+            }
+
+            Label {
+                id: db_busy_label
+                x: column.width / 2 - (width/2)
+                text: "Database is busy - please wait"
+                visible: search.search_started()
             }
         }
     }

@@ -39,6 +39,17 @@ Dialog {
         translation.set_last_changed(translation.get_edit_translation())
     }
 
+    canAccept: !search.search_started()
+
+    Connections {
+        target: search
+        onSearch_started_changed: {
+            page.canAccept = !search.search_started()
+            db_busy.visible = search.search_started()
+            db_busy_label.visible = search.search_started()
+        }
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
@@ -78,6 +89,21 @@ Dialog {
                 text: translation.get_translation(translation.get_edit_translation())
                 placeholderText: "Input custom translation here"
                 label: "Translation"
+            }
+
+            BusyIndicator {
+                id: db_busy
+                x: column.width / 2 - (width/2)
+                running: true
+                size: BusyIndicatorSize.Medium
+                visible: search.search_started()
+            }
+
+            Label {
+                id: db_busy_label
+                x: column.width / 2 - (width/2)
+                text: "Database is busy - please wait"
+                visible: search.search_started()
             }
         }
     }
