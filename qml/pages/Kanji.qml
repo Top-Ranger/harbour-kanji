@@ -38,6 +38,7 @@ Page {
         id: variable
         property bool saved: kanjiinfo.saved()
         property string literal: kanjiinfo.literal()
+        property bool loading: search.search_started()
     }
 
     Item {
@@ -47,6 +48,13 @@ Page {
                 translationtext.text = translation.get_translation(variable.literal)
                 commenttext.text = comment.get_comment(variable.literal)
             }
+        }
+    }
+
+    Connections {
+        target: search
+        onSearch_started_changed: {
+            variable.loading = search.search_started()
         }
     }
 
@@ -80,7 +88,7 @@ Page {
             // Saved Kanji
 
             MenuItem {
-                visible: !variable.saved
+                visible: !variable.saved && !variable.loading
                 text: "Save Kanji"
                 onClicked: {
                     if(kanji_save.save(variable.literal)) {
@@ -95,7 +103,7 @@ Page {
             }
 
             MenuItem {
-                visible: variable.saved
+                visible: variable.saved && !variable.loading
                 text: "Remove Kanji from saved"
                 onClicked: {
                     if(kanji_save.unsave(variable.literal)) {
@@ -106,6 +114,16 @@ Page {
                     else {
                         panel_remove.show()
                     }
+                }
+            }
+
+            MenuItem {
+                visible: variable.loading
+                text: ""
+                BusyIndicator {
+                    running: true
+                    size: BusyIndicatorSize.Small
+                    anchors.centerIn: parent
                 }
             }
         }

@@ -39,6 +39,7 @@ Page {
         property bool saved: kanjiinfo.saved()
         property string literal: kanjiinfo.literal()
         property int count: 0
+        property bool loading: false
     }
 
     onVisibleChanged: {
@@ -50,6 +51,7 @@ Page {
         id: functions
 
         function update() {
+            variable.loading = true
             variable.count = 0
             listModel.clear()
             _update_step()
@@ -65,6 +67,7 @@ Page {
                     return
                 }
             }
+            variable.loading = false
         }
 
         function save_all() {
@@ -137,6 +140,18 @@ Page {
             MenuItem {
                 text: "Save all"
                 onClicked: functions.save_all()
+                visible: !variable.loading
+            }
+
+            MenuItem {
+                visible: variable.loading
+                text: ""
+
+                BusyIndicator {
+                    running: true
+                    size: BusyIndicatorSize.Small
+                    anchors.centerIn: parent
+                }
             }
         }
 
@@ -197,7 +212,7 @@ Page {
                 id: contextmenu
                 MenuItem {
                     text: "Save Kanji"
-                    visible: !saved
+                    visible: !saved && !variable.loading
                     onClicked: {
                         if(literal !== "") {
                             if(kanji_save.save(literal)) {
@@ -214,7 +229,7 @@ Page {
 
                 MenuItem {
                     text: "Remove Kanji from saved"
-                    visible: saved
+                    visible: saved && !variable.loading
                     onClicked: {
                         if(literal !== "") {
                             if(kanji_save.unsave(literal)) {
@@ -226,6 +241,16 @@ Page {
                                 panel_remove.show()
                             }
                         }
+                    }
+                }
+
+                MenuItem {
+                    visible: variable.loading
+                    text: ""
+                    BusyIndicator {
+                        running: true
+                        size: BusyIndicatorSize.Small
+                        anchors.centerIn: parent
                     }
                 }
             }
