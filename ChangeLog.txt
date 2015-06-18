@@ -2,6 +2,7 @@ Current development:
    * Optimized settings database
    * Optimized kanji database
    * Accelerated app
+   * Minor UI improvements
 
 Version 1.3:
    * Added maximum length for list name
