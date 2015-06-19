@@ -2,6 +2,7 @@ Current development:
    * Optimized settings database
    * Optimized kanji database
    * Accelerated app
+   * Added selection of lists/saved Kanji for training
    * Minor UI improvements
 
 Version 1.3:

@@ -38,14 +38,14 @@ Page {
 
     // Reset all queries when this page is shown
     onStatusChanged: {
-            if(page.status === PageStatus.Active) {
-                search.clear()
-                kanjiinfo.clear()
-                lists.clear()
-                radical.clear()
-                list_details.clear()
-            }
+        if(page.status === PageStatus.Active) {
+            search.clear()
+            kanjiinfo.clear()
+            lists.clear()
+            radical.clear()
+            list_details.clear()
         }
+    }
 
     // To enable PullDownMenu, place our content in a SilicaFlickable
     SilicaFlickable {
@@ -98,17 +98,12 @@ Page {
             BackgroundItem {
                 width: parent.width
                 Label {
-                    text: "Train saved Kanji"
+                    text: "Train Kanji"
                     anchors.centerIn: parent
                 }
 
                 onClicked: {
-                    if(train.start_test()) {
-                        pageStack.push(Qt.resolvedUrl("Train.qml"))
-                    }
-                    else {
-                        panel.show()
-                    }
+                    pageStack.push(Qt.resolvedUrl("TrainSelect.qml"))
                 }
             }
 

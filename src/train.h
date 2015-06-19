@@ -45,6 +45,7 @@ public:
     explicit train(QSqlDatabase settings, QObject *parent = 0);
 
     Q_INVOKABLE bool start_test();
+    Q_INVOKABLE bool start_test_list(QString list);
     Q_INVOKABLE bool next();
     Q_INVOKABLE QString literal();
     Q_INVOKABLE bool started();

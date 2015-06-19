@@ -68,6 +68,36 @@ bool train::start_test()
     return true;
 }
 
+bool train::start_test_list(QString list)
+{
+    _started = false;
+    _settings_query.clear();
+    _literal_list.clear();
+
+    QString s = QString("SELECT literal FROM kanji_lists WHERE list=?");
+    _settings_query.prepare(s);
+    _settings_query.addBindValue(list);
+
+    if(!_settings_query.exec())
+    {
+        QString error = s.append(": ").append(_settings_query.lastError().text());
+        qWarning() << error;
+        return false;
+    }
+    if(!_settings_query.isSelect())
+    {
+        QString error = s.append(": No SELECT");
+        qWarning() << error;
+        return false;
+    }
+    while(_settings_query.next())
+    {
+        _literal_list.append(_settings_query.value(0).toString());
+    }
+    _started = true;
+    return true;
+}
+
 bool train::next()
 {
     if(!_started)
