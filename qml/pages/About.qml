@@ -140,6 +140,28 @@ See <a href=\"file:///usr/share/harbour-kanji/cc4.0-by-sa.license.html\">/usr/sh
 
 See <a href=\"file:///usr/share/harbour-kanji/cc4.0-by-sa.license.html\">/usr/share/harbour-kanji/cc4.0-by-sa.license.html</a> for more information.</html>"
             }
+
+            PageHeader {
+                title: "Special thanks"
+            }
+
+            Text  {
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.paddingSmall
+                }
+
+                id: specialThanks
+                focus: true
+                color: Theme.primaryColor
+                width: about.width
+                font.pixelSize: Theme.fontSizeExtraSmall
+                wrapMode: Text.Wrap
+
+                text: "Special thanks to Kenney (www.kenney.nl) for the free release of 'Game Icons'"
+            }
         }
     }
 }
