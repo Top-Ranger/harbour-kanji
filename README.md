@@ -34,3 +34,7 @@ About SKIP
 
 The SKIP (System of Kanji Indexing by Patterns) system for ordering kanji was developed by Jack Halpern (Kanji Dictionary Publishing Society at http://www.kanji.org/), and is used with his permission.
 See cc4.0-by-sa.license.html for more details.
+
+Special thanks
+==============
+Special thanks to Kenney (www.kenney.nl) for the free release of 'Game Icons'
