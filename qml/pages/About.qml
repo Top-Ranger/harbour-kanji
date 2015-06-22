@@ -160,7 +160,7 @@ See <a href=\"file:///usr/share/harbour-kanji/cc4.0-by-sa.license.html\">/usr/sh
                 font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.Wrap
 
-                text: "Special thanks to Kenney (www.kenney.nl) for the free release of 'Game Icons'"
+                text: "Special thanks to Kenney (www.kenney.nl) for the free release of 'Game Icons'."
             }
         }
     }

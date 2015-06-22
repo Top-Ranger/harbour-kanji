@@ -37,4 +37,4 @@ See cc4.0-by-sa.license.html for more details.
 
 Special thanks
 ==============
-Special thanks to Kenney (www.kenney.nl) for the free release of 'Game Icons'
+Special thanks to Kenney (www.kenney.nl) for the free release of 'Game Icons'.
