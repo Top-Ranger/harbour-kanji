@@ -194,3 +194,35 @@ bool kanjiinfo::valid_skip()
 {
     return _skip1 != 0 && _skip2 != 0 && _skip3 != 0;
 }
+
+QString kanjiinfo::meaning_by_literal(QString literal)
+{
+    QString s = QString("SELECT meaning FROM kanji WHERE literal=?");
+    _kanji_query.clear();
+    _kanji_query.prepare(s);
+    _kanji_query.addBindValue(literal);
+
+    if(!_kanji_query.exec())
+    {
+        QString error = s.append(": ").append(_kanji_query.lastError().text());
+        qWarning() << error;
+        _kanji_query.clear();
+        return "";
+    }
+    if(!_kanji_query.isSelect())
+    {
+        QString error = s.append(": No SELECT");
+        qWarning() << error;
+        _kanji_query.clear();
+        return "";
+    }
+    if(!_kanji_query.next())
+    {
+        _kanji_query.clear();
+        return "";
+    }
+
+    s = _kanji_query.value(0).toString();
+    _kanji_query.finish();
+    return s;
+}

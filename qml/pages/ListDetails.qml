@@ -118,12 +118,20 @@ Page {
                     color: Theme.primaryColor
                 }
                 Label {
-                    text: listentry.in_list ? "Saved in list" : "Deleted from list"
+                    text: kanjiinfo.meaning_by_literal(listentry.literal)
                     width: page.width / 3 * 2
                     color: Theme.secondaryColor
                     horizontalAlignment: Text.AlignLeft
                     truncationMode: TruncationMode.Elide
                 }
+            }
+
+            Image {
+                id: list_saved
+                height: parent.height
+                width: height
+                anchors.right: kanjirow.right
+                source: listentry.in_list ? "list.png" : "no_list.png"
             }
 
             menu: ContextMenu {

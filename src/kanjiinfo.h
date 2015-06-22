@@ -60,6 +60,8 @@ public:
     Q_INVOKABLE int skip3();
     Q_INVOKABLE bool valid_skip();
 
+    Q_INVOKABLE QString meaning_by_literal(QString literal);
+
 signals:
 
 public slots:
