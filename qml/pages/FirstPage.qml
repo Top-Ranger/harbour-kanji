@@ -64,11 +64,6 @@ Page {
                 text: "SKIP system usage"
                 onClicked: pageStack.push(Qt.resolvedUrl("SKIP.qml"))
             }
-
-            MenuItem {
-                text: "Manage saved Kanji"
-                onClicked: pageStack.push(Qt.resolvedUrl("ListManagement.qml"))
-            }
         }
 
         // Tell SilicaFlickable the height of its content.
@@ -80,7 +75,7 @@ Page {
             id: column
 
             width: page.width
-            spacing: Theme.paddingLarge
+            spacing: Theme.paddingMedium
             PageHeader {
                 title: "Kanji"
             }
@@ -123,6 +118,18 @@ Page {
                     else {
                         panel.show()
                     }
+                }
+            }
+
+            BackgroundItem {
+                width: parent.width
+                Label {
+                    text: "Manage saved Kanji"
+                    anchors.centerIn: parent
+                }
+
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("ListManagement.qml"))
                 }
             }
 
