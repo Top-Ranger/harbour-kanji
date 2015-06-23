@@ -41,45 +41,32 @@ comment::comment(QSqlDatabase settings, QObject *parent) :
 
 QString comment::get_comment(QString literal)
 {
-    QString s = QString("SELECT count(*) FROM comment WHERE literal=?");
+    QString s = QString("SELECT comment_text FROM comment WHERE literal=?");
     _settings_query.clear();
     _settings_query.prepare(s);
     _settings_query.addBindValue(literal);
-    if(_settings_query.exec() && _settings_query.isSelect() && _settings_query.next() && _settings_query.value(0).toInt() > 0)
+    if(!_settings_query.exec())
     {
-        s = QString("SELECT comment_text FROM comment WHERE literal=?");
+        QString error = s.append(": ").append(_settings_query.lastError().text());
+        qWarning() << error;
         _settings_query.clear();
-        _settings_query.prepare(s);
-        _settings_query.addBindValue(literal);
-        if(!_settings_query.exec())
-        {
-            QString error = s.append(": ").append(_settings_query.lastError().text());
-            qWarning() << error;
-            _settings_query.clear();
-            return QString("");
-        }
-        if(!_settings_query.isSelect())
-        {
-            QString error = s.append(": No SELECT");
-            qWarning() << error;
-            _settings_query.clear();
-            return QString("");
-        }
-        if(!_settings_query.next())
-        {
-            QString error = s.append(": No comment");
-            qWarning() << error;
-            _settings_query.clear();
-            return QString("");
-        }
-        s = _settings_query.value(0).toString();
-        _settings_query.finish();
-        return s;
-    }
-    else
-    {
         return QString("");
     }
+    if(!_settings_query.isSelect())
+    {
+        QString error = s.append(": No SELECT");
+        qWarning() << error;
+        _settings_query.clear();
+        return QString("");
+    }
+    if(!_settings_query.next())
+    {
+        _settings_query.clear();
+        return QString("");
+    }
+    s = _settings_query.value(0).toString();
+    _settings_query.finish();
+    return s;
 }
 
 bool comment::set_comment(QString literal, QString comment_text)
