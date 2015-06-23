@@ -81,6 +81,7 @@ bool lists::next()
     }
     else
     {
+        _lists_query.finish();
         _search_started = false;
         return false;
     }
@@ -137,8 +138,8 @@ bool lists::save_to_list(QString list)
             return false;
         }
     }
-
     _settings.commit();
+    _lists_query.finish();
     return true;
 }
 
@@ -182,8 +183,8 @@ bool lists::load_from_list(QString list)
             return false;
         }
     }
-
     _settings.commit();
+    _lists_query.finish();
     return true;
 }
 
@@ -200,6 +201,6 @@ bool lists::delete_list(QString list)
         _lists_query.clear();
         return false;
     }
-
+    _lists_query.finish();
     return true;
 }

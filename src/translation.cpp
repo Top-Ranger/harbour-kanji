@@ -73,7 +73,9 @@ QString translation::get_translation(QString literal)
             _settings_query.clear();
             return QString("");
         }
-        return _settings_query.value(0).toString();
+        s = _settings_query.value(0).toString();
+        _settings_query.finish();
+        return s;
     }
     else
     {

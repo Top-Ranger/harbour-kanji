@@ -49,10 +49,13 @@ QString radical::radical_by_number(int number)
     _single_query.addBindValue(number);
     if(_single_query.exec() && _single_query.isSelect() && _single_query.next())
     {
-        return _single_query.value(0).toString();
+        s = _single_query.value(0).toString();
+        _single_query.finish();
+        return s;
     }
     else
     {
+        _single_query.finish();
         return "";
     }
 }
@@ -65,10 +68,13 @@ int radical::number_by_radical(QString radical)
     _single_query.addBindValue(radical);
     if(_single_query.exec() && _single_query.isSelect() && _single_query.next())
     {
-        return _single_query.value(0).toInt();
+        int i = _single_query.value(0).toInt();
+        _single_query.finish();
+        return i;
     }
     else
     {
+        _single_query.finish();
         return 0;
     }
 }
@@ -118,6 +124,7 @@ bool radical::next()
     }
     else
     {
+        _kanji_query.finish();
         _started = false;
         return false;
     }

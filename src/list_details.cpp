@@ -84,6 +84,7 @@ bool list_details::next()
     else
     {
         _started = false;
+        _settings_query.finish();
         return false;
     }
 }

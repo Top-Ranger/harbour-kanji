@@ -52,18 +52,21 @@ bool train::start_test()
     {
         QString error = s.append(": ").append(_settings_query.lastError().text());
         qWarning() << error;
+        _settings_query.clear();
         return false;
     }
     if(!_settings_query.isSelect())
     {
         QString error = s.append(": No SELECT");
         qWarning() << error;
+        _settings_query.clear();
         return false;
     }
     while(_settings_query.next())
     {
         _literal_list.append(_settings_query.value(0).toString());
     }
+    _settings_query.finish();
     _started = true;
     return true;
 }
@@ -82,18 +85,21 @@ bool train::start_test_list(QString list)
     {
         QString error = s.append(": ").append(_settings_query.lastError().text());
         qWarning() << error;
+        _settings_query.clear();
         return false;
     }
     if(!_settings_query.isSelect())
     {
         QString error = s.append(": No SELECT");
         qWarning() << error;
+        _settings_query.clear();
         return false;
     }
     while(_settings_query.next())
     {
         _literal_list.append(_settings_query.value(0).toString());
     }
+    _settings_query.finish();
     _started = true;
     return true;
 }
