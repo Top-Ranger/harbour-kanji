@@ -59,7 +59,7 @@ Page {
 
         function _update_step() {
             while(search.next()) {
-                listModel.append({"element_literal": search.literal(), "element_meaning": search.meaning(), "element_saved": search.kanji_is_saved(), "element_translation": translation.get_translation(search.literal())})
+                listModel.append({"element_literal": search.literal(), "element_meaning": search.meaning(), "element_saved": search.kanji_is_saved()})
                 variable.count += 1
                 if(variable.count%100 === 0) {
                     timer.stop()
@@ -166,6 +166,7 @@ Page {
         delegate: ListItem {
             id: kanjientry
 
+            property string element_translation: translation.get_translation(search.literal())
             property string literal: element_literal
             property string meaning: element_translation !== "" ? element_translation : element_meaning
             property bool saved: element_saved
