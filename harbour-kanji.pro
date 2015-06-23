@@ -67,7 +67,8 @@ OTHER_FILES += qml/harbour-kanji.qml \
     qml/pages/EditTranslation.qml \
     qml/pages/TrainSelect.qml \
     qml/pages/list.png \
-    qml/pages/no_list.png
+    qml/pages/no_list.png \
+    store-description.md
 
 HEADERS += \
     src/search.h \
