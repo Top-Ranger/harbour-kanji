@@ -127,7 +127,7 @@ void search::clear()
 
 void search::search_literal(QString literal)
 {
-    _literal = literal;
+    _literal = literal.trimmed();
 }
 
 void search::search_radical(int radical)
@@ -147,7 +147,7 @@ void search::search_jlpt(int jlpt)
 
 void search::search_meaning(QString meaning)
 {
-    _meaning = meaning;
+    _meaning = meaning.trimmed();
 }
 
 void search::search_saved(bool saved)
@@ -165,7 +165,7 @@ void search::search_skip(int skip1, int skip2, int skip3)
 
 void search::search_comment(QString comment)
 {
-    _comment = comment;
+    _comment = comment.trimmed();
 }
 
 bool search::start_search()
