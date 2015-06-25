@@ -75,7 +75,7 @@ bool comment::set_comment(QString literal, QString comment_text)
     _settings_query.clear();
     _settings_query.prepare(s);
     _settings_query.addBindValue(literal);
-    _settings_query.addBindValue(comment_text);
+    _settings_query.addBindValue(comment_text.trimmed());
 
     if(!_settings_query.exec())
     {

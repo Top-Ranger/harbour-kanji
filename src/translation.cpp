@@ -76,7 +76,7 @@ bool translation::set_translation(QString literal, QString translation_text)
     _settings_query.clear();
     _settings_query.prepare(s);
     _settings_query.addBindValue(literal);
-    _settings_query.addBindValue(translation_text);
+    _settings_query.addBindValue(translation_text.trimmed());
 
     if(!_settings_query.exec())
     {
