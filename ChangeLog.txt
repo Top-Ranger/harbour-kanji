@@ -1,4 +1,5 @@
 Current development:
+   * Search for meaning now sorts by similarity
    * Optimized settings database
    * Optimized kanji database
    * Accelerated app
