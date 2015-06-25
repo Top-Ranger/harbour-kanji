@@ -418,7 +418,7 @@ int search::calculate_similarity(kanji_data &kanji)
     foreach (QString s, s_list)
     {
         int score = std::numeric_limits<int>::max();
-        if(s.contains(_meaning))
+        if(s.contains(_meaning, Qt::CaseInsensitive))
         {
             score = s.length() - _meaning.length();
         }
@@ -436,7 +436,7 @@ int search::calculate_similarity(kanji_data &kanji)
     foreach (QString s, s_list)
     {
         int score = std::numeric_limits<int>::max();
-        if(s.contains(_meaning))
+        if(s.contains(_meaning, Qt::CaseInsensitive))
         {
             score = s.length() - _meaning.length();
         }
