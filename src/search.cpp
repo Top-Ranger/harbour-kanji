@@ -72,7 +72,8 @@ search::search(QString settings_path, QObject *parent) :
     _search_started(false),
     _kanji_map(),
     _iterator(),
-    _last_iterator()
+    _last_iterator(),
+    _count(0)
 {
     _database = QSqlDatabase::addDatabase("QSQLITE");
     _database.setDatabaseName(":memory:");
@@ -122,6 +123,7 @@ void search::clear()
     _comment = "";
     _search_started = false;
     _kanji_map.clear();
+    _count = 0;
     emit search_started_changed();
 }
 
@@ -410,7 +412,7 @@ int search::calculate_similarity(kanji_data &kanji)
 {
     if(_meaning == "")
     {
-        return 0;
+        return ++_count;
     }
     int min_score = std::numeric_limits<int>::max();
 

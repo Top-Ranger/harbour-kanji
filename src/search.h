@@ -111,6 +111,8 @@ private:
     QMultiMap<int, kanji_data> _kanji_map;
     QMultiMap<int, kanji_data>::iterator _iterator;
     QMultiMap<int, kanji_data>::iterator _last_iterator;
+
+   int _count;
 };
 
 #endif // SEARCH_H
