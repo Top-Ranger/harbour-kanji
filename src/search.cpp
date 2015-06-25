@@ -31,6 +31,8 @@
 #include <QDebug>
 #include <QVariant>
 #include <QVariantList>
+#include <QStringList>
+#include <limits>
 
 namespace {
 QString get_seperator(int &count)
@@ -406,5 +408,47 @@ bool search::search_started()
 
 int search::calculate_similarity(kanji_data &kanji)
 {
-    return 0;
+    if(_meaning == "")
+    {
+        return 0;
+    }
+    int min_score = std::numeric_limits<int>::max();
+
+    QStringList s_list = kanji.meaning.split(", ");
+    foreach (QString s, s_list)
+    {
+        int score = std::numeric_limits<int>::max();
+        if(s.contains(_meaning))
+        {
+            score = s.length() - _meaning.length();
+        }
+        if(s.startsWith("to ", Qt::CaseInsensitive))
+        {
+            score -= 3;
+        }
+        if(score < min_score)
+        {
+            min_score = score;
+        }
+    }
+
+    s_list = kanji.translation.split(", ");
+    foreach (QString s, s_list)
+    {
+        int score = std::numeric_limits<int>::max();
+        if(s.contains(_meaning))
+        {
+            score = s.length() - _meaning.length();
+        }
+        if(s.startsWith("to ", Qt::CaseInsensitive))
+        {
+            score -= 3;
+        }
+        if(score < min_score)
+        {
+            min_score = score;
+        }
+    }
+
+    return min_score;
 }
