@@ -54,6 +54,7 @@ search::search(QString settings_path, QObject *parent) :
     _settings_query(),
     _literal_result(""),
     _meaning_result(""),
+    _translation_result(""),
     _saved(""),
     _literal(""),
     _radical(-1),
@@ -66,7 +67,10 @@ search::search(QString settings_path, QObject *parent) :
     _skip2(0),
     _skip3(0),
     _comment(""),
-    _search_started(false)
+    _search_started(false),
+    _kanji_map(),
+    _iterator(),
+    _last_iterator()
 {
     _database = QSqlDatabase::addDatabase("QSQLITE");
     _database.setDatabaseName(":memory:");
@@ -101,6 +105,7 @@ void search::clear()
     _settings_query.clear();
     _literal_result = "";
     _meaning_result = "";
+    _translation_result = "";
     _saved = false;
     _literal = "";
     _radical = -1;
@@ -114,6 +119,7 @@ void search::clear()
     _skip3 = 0;
     _comment = "";
     _search_started = false;
+    _kanji_map.clear();
     emit search_started_changed();
 }
 
@@ -166,6 +172,7 @@ bool search::start_search()
     {
         // Get all kanji
         QString s = QString("SELECT literal,meaning FROM kanjidb.kanji");
+        qDebug() << "DEBUG in " __FILE__ << " " << __LINE__ << ": SELECT statement:" << s;
         if(!_kanji_query.exec(s))
         {
             QString error = s.append(": ").append(_kanji_query.lastError().text());
@@ -189,7 +196,7 @@ bool search::start_search()
         int count = 0;
         QVariantList search_list;
 
-        QString s = QString("SELECT kanjidb.kanji.literal,kanjidb.kanji.meaning FROM kanjidb.kanji LEFT JOIN settingsdb.custom_translation ON kanjidb.kanji.literal=settingsdb.custom_translation.literal LEFT JOIN settingsdb.comment ON kanjidb.kanji.literal=settingsdb.comment.literal");
+        QString s = QString("SELECT kanjidb.kanji.literal,kanjidb.kanji.meaning,settingsdb.custom_translation.translation FROM kanjidb.kanji LEFT JOIN settingsdb.custom_translation ON kanjidb.kanji.literal=settingsdb.custom_translation.literal LEFT JOIN settingsdb.comment ON kanjidb.kanji.literal=settingsdb.comment.literal");
         if(_literal != "")
         {
             s.append(get_seperator(count));
@@ -272,6 +279,7 @@ bool search::start_search()
         }
     }
     _search_started = true;
+    populate_map();
     emit search_started_changed();
     return true;
 }
@@ -286,6 +294,7 @@ bool search::next_hidden()
     {
         _literal_result = _kanji_query.value(0).toString();
         _meaning_result = _kanji_query.value(1).toString();
+        _translation_result = _kanji_query.value(2).toString();
 
         QString s = QString("SELECT count(*) FROM settingsdb.saved_kanji WHERE literal=?");
         _settings_query.prepare(s);
@@ -303,9 +312,50 @@ bool search::next_hidden()
     }
     else
     {
-        _search_started = false;
-        emit search_started_changed();
         return false;
+    }
+}
+
+void search::populate_map()
+{
+    if(!_search_started)
+    {
+        return;
+    }
+
+    if(!_search_for_saved)
+    {
+        do {
+            if(!next_hidden())
+            {
+                _iterator = _kanji_map.begin();
+                _last_iterator = _kanji_map.end();
+                return;
+            }
+            kanji_data kanji;
+            kanji.literal = _literal_result;
+            kanji.meaning = _meaning_result;
+            kanji.translation = _translation_result;
+            kanji.saved = _saved;
+            _kanji_map.insert(calculate_similarity(kanji), kanji);
+        } while(true);
+    }
+    else
+    {
+        while(next_hidden())
+        {
+            if(_saved_search_value == _saved)
+            {
+                kanji_data kanji;
+                kanji.literal = _literal_result;
+                kanji.meaning = _meaning_result;
+                kanji.translation = _translation_result;
+                kanji.saved = _saved;
+                _kanji_map.insert(calculate_similarity(kanji), kanji);
+            }
+        }
+        _iterator = _kanji_map.begin();
+        _last_iterator = _kanji_map.end();
     }
 }
 
@@ -315,21 +365,18 @@ bool search::next()
     {
         return false;
     }
-    if(!_search_for_saved)
+    if(_iterator == _last_iterator)
     {
-        return next_hidden();
-    }
-    else
-    {
-        while(next_hidden())
-        {
-            if(_saved_search_value == _saved)
-            {
-                return true;
-            }
-        }
+        _search_started = false;
+        emit search_started_changed();
         return false;
     }
+    _literal_result = _iterator.value().literal;
+    _meaning_result = _iterator.value().meaning;
+    _translation_result = _iterator.value().translation;
+    _saved = _iterator.value().saved;
+    ++_iterator;
+    return true;
 }
 
 QString search::literal()
@@ -342,6 +389,11 @@ QString search::meaning()
     return _meaning_result;
 }
 
+QString search::translation()
+{
+    return _translation_result;
+}
+
 bool search::kanji_is_saved()
 {
     return _saved;
@@ -350,4 +402,9 @@ bool search::kanji_is_saved()
 bool search::search_started()
 {
     return _search_started;
+}
+
+int search::calculate_similarity(kanji_data &kanji)
+{
+    return 0;
 }

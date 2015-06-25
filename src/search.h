@@ -35,6 +35,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QString>
+#include <QMultiMap>
 
 class search : public QObject
 {
@@ -58,6 +59,7 @@ public:
     Q_INVOKABLE bool next();
     Q_INVOKABLE QString literal();
     Q_INVOKABLE QString meaning();
+    Q_INVOKABLE QString translation();
     Q_INVOKABLE bool kanji_is_saved();
     Q_INVOKABLE bool search_started();
 
@@ -67,7 +69,17 @@ signals:
 public slots:
 
 private:
+    struct kanji_data
+    {
+        QString literal;
+        QString meaning;
+        QString translation;
+        bool saved;
+    };
+
     bool next_hidden();
+    void populate_map();
+    int calculate_similarity(kanji_data &kanji);
 
     QSqlDatabase _database;
 
@@ -76,6 +88,7 @@ private:
 
     QString _literal_result;
     QString _meaning_result;
+    QString _translation_result;
     bool _saved;
 
     QString _literal;
@@ -94,6 +107,10 @@ private:
     QString _comment;
 
     bool _search_started;
+
+    QMultiMap<int, kanji_data> _kanji_map;
+    QMultiMap<int, kanji_data>::iterator _iterator;
+    QMultiMap<int, kanji_data>::iterator _last_iterator;
 };
 
 #endif // SEARCH_H
