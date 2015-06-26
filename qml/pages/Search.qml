@@ -157,7 +157,7 @@ Page {
                     id: skip1input
                     width: parent.width/3
                     visible: switchskip.checked
-                    EnterKey.onClicked: parent.focus = true
+                    EnterKey.onClicked: skip2input.focus = true
                     placeholderText: "SKIP 1"
                     label: "SKIP 1"
                     inputMethodHints: Qt.ImhFormattedNumbersOnly
@@ -173,7 +173,7 @@ Page {
                     id: skip2input
                     width: parent.width/3
                     visible: switchskip.checked
-                    EnterKey.onClicked: parent.focus = true
+                    EnterKey.onClicked: skip3input.focus = true
                     placeholderText: "SKIP 2"
                     label: "SKIP 2"
                     inputMethodHints: Qt.ImhFormattedNumbersOnly
