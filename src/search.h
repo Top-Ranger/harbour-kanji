@@ -77,7 +77,6 @@ private:
         bool saved;
     };
 
-    bool next_hidden();
     void populate_map();
     int calculate_similarity(kanji_data &kanji);
 

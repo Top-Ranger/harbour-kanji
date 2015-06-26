@@ -288,38 +288,6 @@ bool search::start_search()
     return true;
 }
 
-bool search::next_hidden()
-{
-    if(!_search_started)
-    {
-        return false;
-    }
-    if(_kanji_query.next())
-    {
-        _literal_result = _kanji_query.value(0).toString();
-        _meaning_result = _kanji_query.value(1).toString();
-        _translation_result = _kanji_query.value(2).toString();
-
-        QString s = QString("SELECT count(*) FROM settingsdb.saved_kanji WHERE literal=?");
-        _settings_query.prepare(s);
-        _settings_query.addBindValue(_literal_result);
-        if(_settings_query.exec() && _settings_query.isSelect() && _settings_query.next() && _settings_query.value(0).toInt() > 0)
-        {
-            _saved = true;
-        }
-        else
-        {
-            _saved = false;
-        }
-        _settings_query.finish();
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
 void search::populate_map()
 {
     if(!_search_started)
@@ -327,40 +295,35 @@ void search::populate_map()
         return;
     }
 
-    if(!_search_for_saved)
+    while(_kanji_query.next())
     {
-        do {
-            if(!next_hidden())
-            {
-                _iterator = _kanji_map.begin();
-                _last_iterator = _kanji_map.end();
-                return;
-            }
-            kanji_data kanji;
-            kanji.literal = _literal_result;
-            kanji.meaning = _meaning_result;
-            kanji.translation = _translation_result;
-            kanji.saved = _saved;
-            _kanji_map.insert(calculate_similarity(kanji), kanji);
-        } while(true);
-    }
-    else
-    {
-        while(next_hidden())
+        bool saved;
+
+        QString s = QString("SELECT count(*) FROM settingsdb.saved_kanji WHERE literal=?");
+        _settings_query.prepare(s);
+        _settings_query.addBindValue(_kanji_query.value(0).toString());
+        if(_settings_query.exec() && _settings_query.isSelect() && _settings_query.next() && _settings_query.value(0).toInt() > 0)
         {
-            if(_saved_search_value == _saved)
-            {
-                kanji_data kanji;
-                kanji.literal = _literal_result;
-                kanji.meaning = _meaning_result;
-                kanji.translation = _translation_result;
-                kanji.saved = _saved;
-                _kanji_map.insert(calculate_similarity(kanji), kanji);
-            }
+            saved = true;
         }
-        _iterator = _kanji_map.begin();
-        _last_iterator = _kanji_map.end();
+        else
+        {
+            saved = false;
+        }
+        _settings_query.finish();
+
+        if(!_search_for_saved || (_saved_search_value == _saved))
+        {
+            kanji_data kanji;
+            kanji.literal = _kanji_query.value(0).toString();
+            kanji.meaning = _kanji_query.value(1).toString();
+            kanji.translation = _kanji_query.value(2).toString();
+            kanji.saved = saved;
+            _kanji_map.insert(calculate_similarity(kanji), kanji);
+        }
     }
+    _iterator = _kanji_map.begin();
+    _last_iterator = _kanji_map.end();
 }
 
 bool search::next()
