@@ -1,4 +1,6 @@
 Current development:
+
+Version 1.4:
    * Search for meaning now sorts by similarity
    * Optimized settings database
    * Optimized kanji database
