@@ -312,7 +312,7 @@ void search::populate_map()
         }
         _settings_query.finish();
 
-        if(!_search_for_saved || (_saved_search_value == _saved))
+        if(!_search_for_saved || (_saved_search_value == saved))
         {
             kanji_data kanji;
             kanji.literal = _kanji_query.value(0).toString();

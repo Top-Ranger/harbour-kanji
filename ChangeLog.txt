@@ -1,4 +1,5 @@
 Current development:
+   *  Fixed a bug where saved kanji were not shown correctly
 
 Version 1.4:
    * Search for meaning now sorts by similarity
