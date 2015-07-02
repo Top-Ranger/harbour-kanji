@@ -1,4 +1,6 @@
 Current development:
+
+Version 1.5:
    *  Fixed a bug where saved kanji were not shown correctly
 
 Version 1.4:

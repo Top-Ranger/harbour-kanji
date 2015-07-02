@@ -59,7 +59,7 @@ Page {
             }
 
             Label {
-                text: "Kanji Version 1.4"
+                text: "Kanji Version 1.5"
             }
 
             Text  {
