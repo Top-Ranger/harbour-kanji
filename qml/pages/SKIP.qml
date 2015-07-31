@@ -77,7 +77,7 @@ Page {
 
  - If the Kanji can be split vertically the classification is '1 - strokes left side - strokes right side'
  - If the Kanji can be split horizontally the classification is '2 - strokes upper side - strokes lower side'
- - If the Kanji can be split into an inner part and outer part the classification is '3 - strokes inner part - strokes outer part'
+ - If the Kanji can be split into an inner part and outer part the classification is '3 - strokes outer part - strokes inner part'
  - If none of this applies the classification is '4 - strokecount - line number as defined below'
 
 The line number is defined as follows:
