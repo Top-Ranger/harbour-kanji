@@ -204,7 +204,7 @@ bool search::start_search()
         if(_literal != "")
         {
             s.append(get_seperator(count));
-            s.append("literal LIKE ?");
+            s.append("kanjidb.kanji.literal LIKE ?");
             search_list.append(QString("\%%1\%").arg(_literal));
         }
         if(_radical != -1)
