@@ -1,5 +1,8 @@
 Current development:
 
+Version 1.7:
+   * Fixed search for literals
+
 Version 1.6:
    * Fixed SKIP description error
    * Updated database
